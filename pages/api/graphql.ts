@@ -1,9 +1,7 @@
 import cors from "micro-cors";
 import { ApolloServer } from "apollo-server-micro";
 import { PageConfig, NextApiHandler } from "next";
-import prisma from "../../prisma/runtime";
-import { typeDefs } from "../../graphql/schema";
-import { DateTime } from "../../graphql/scalars";
+import { typeDefs, resolvers } from "../../graphql";
 
 export const config: PageConfig = {
   api: {
@@ -13,60 +11,7 @@ export const config: PageConfig = {
 
 const apolloServer = new ApolloServer({
   typeDefs,
-  resolvers: {
-    DateTime,
-    Query: {
-      users: async () => {
-        const users = await prisma.user.findMany();
-
-        return users;
-      },
-    },
-    Mutation: {
-      taskCreate: async (_, { input }) => {
-        const { name, userId } = input;
-
-        return await prisma.task.create({
-          data: {
-            userId,
-            name,
-          },
-        });
-      },
-      taskUpdate: async (_, { input }) => {
-        const task = await prisma.task.update({
-          where: { id: input.taskId },
-          data: {
-            time: input.time,
-          },
-        });
-
-        return task;
-      },
-      userCreate: async (_, { input }) => {
-        const { email, name } = input;
-        const user = await prisma.user.create({
-          data: {
-            email,
-            name,
-          },
-        });
-
-        return user;
-      },
-    },
-    User: {
-      tasks: async (parent) => {
-        const tasks = await prisma.task.findMany({
-          where: {
-            userId: parent.id,
-          },
-        });
-
-        return tasks;
-      },
-    },
-  },
+  resolvers,
 });
 
 let apolloServerHandler: NextApiHandler;
