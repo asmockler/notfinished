@@ -1,5 +1,5 @@
 import { gql } from "apollo-server-micro";
-import prisma from "../prisma/runtime";
+import { QueryResolvers } from "./types";
 
 export const QueryTypes = gql`
   type Query {
@@ -7,9 +7,9 @@ export const QueryTypes = gql`
   }
 `;
 
-export const QueryResolver = {
-  users: async () => {
-    const users = await prisma.user.findMany();
+export const QueryResolver: QueryResolvers = {
+  users: async (_, __, { db }) => {
+    const users = await db.user.findMany();
 
     return users;
   },

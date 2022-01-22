@@ -1,18 +1,12 @@
 import cors from "micro-cors";
-import { ApolloServer } from "apollo-server-micro";
 import { PageConfig, NextApiHandler } from "next";
-import { typeDefs, resolvers } from "../../graphql";
+import { apolloServer } from "../../graphql";
 
 export const config: PageConfig = {
   api: {
     bodyParser: false,
   },
 };
-
-const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
 
 let apolloServerHandler: NextApiHandler;
 async function getApolloServerHandler() {

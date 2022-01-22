@@ -5,7 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:graphql": "graphql-codegen --config graphql-codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.5.7",
@@ -22,6 +23,11 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^3.1.1",
+    "@graphql-codegen/cli": "^2.4.0",
+    "@graphql-codegen/introspection": "^2.1.1",
+    "@graphql-codegen/typescript": "^2.4.2",
+    "@graphql-codegen/typescript-resolvers": "^2.4.3",
     "@types/micro-cors": "^0.1.2",
     "@types/node": "17.0.10",
     "@types/react": "17.0.38",

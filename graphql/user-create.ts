@@ -1,5 +1,5 @@
 import { gql } from "apollo-server-micro";
-import prisma from "../prisma/runtime";
+import { MutationResolvers } from "./types";
 
 export const UserCreateTypes = gql`
   input UserCreateInput {
@@ -12,9 +12,13 @@ export const UserCreateTypes = gql`
   }
 `;
 
-export const UserCreateResolver = async (_: any, { input }: any) => {
+export const UserCreateResolver: MutationResolvers["userCreate"] = async (
+  _,
+  { input },
+  { db }
+) => {
   const { email, name } = input;
-  const user = await prisma.user.create({
+  const user = await db.user.create({
     data: {
       email,
       name,

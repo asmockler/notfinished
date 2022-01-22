@@ -1,4 +1,5 @@
 import { gql } from "apollo-server-micro";
+import { TaskResolvers } from "./types";
 
 export const TaskTypes = gql`
   type Task {
@@ -10,4 +11,4 @@ export const TaskTypes = gql`
   }
 `;
 
-export const TaskResolver = {};
+export const TaskResolver: TaskResolvers = {};

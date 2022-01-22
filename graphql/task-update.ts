@@ -1,5 +1,5 @@
 import { gql } from "apollo-server-micro";
-import prisma from "../prisma/runtime";
+import { MutationResolvers } from "./types";
 
 export const TaskUpdateTypes = gql`
   input TaskUpdateInput {
@@ -12,8 +12,12 @@ export const TaskUpdateTypes = gql`
   }
 `;
 
-export const TaskUpdateResolver = async (_: any, { input }: any) => {
-  const task = await prisma.task.update({
+export const TaskUpdateResolver: MutationResolvers["taskUpdate"] = async (
+  _,
+  { input },
+  { db }
+) => {
+  const task = await db.task.update({
     where: { id: input.taskId },
     data: {
       time: input.time,

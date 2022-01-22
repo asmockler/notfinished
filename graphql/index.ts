@@ -1,4 +1,6 @@
-import { gql } from "apollo-server-micro";
+import { ApolloServer, gql } from "apollo-server-micro";
+import type { PrismaClient } from "@prisma/client";
+import prisma from "../prisma/runtime";
 
 import { QueryResolver, QueryTypes } from "./query";
 import { TaskCreateResolver, TaskCreateTypes } from "./task-create";
@@ -7,6 +9,10 @@ import { TaskResolver, TaskTypes } from "./task";
 import { UserCreateResolver, UserCreateTypes } from "./user-create";
 import { UserResolver, UserTypes } from "./user";
 import { DateTime } from "./scalars/date-time";
+
+export interface ApolloContext {
+  db: PrismaClient;
+}
 
 const Mutation = gql`
   # Mutations are all defined by extending this type.
@@ -36,3 +42,11 @@ export const resolvers = {
   Task: TaskResolver,
   User: UserResolver,
 };
+
+export const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: () => {
+    return { db: prisma };
+  },
+});

@@ -1,5 +1,5 @@
 import { gql } from "apollo-server-micro";
-import prisma from "../prisma/runtime";
+import { UserResolvers } from "./types";
 
 export const UserTypes = gql`
   type User {
@@ -9,11 +9,11 @@ export const UserTypes = gql`
   }
 `;
 
-export const UserResolver = {
-  tasks: async (parent: any) => {
-    const tasks = await prisma.task.findMany({
+export const UserResolver: UserResolvers = {
+  tasks: async (user, _, { db }) => {
+    const tasks = await db.task.findMany({
       where: {
-        userId: parent.id,
+        userId: user.id,
       },
     });
 
