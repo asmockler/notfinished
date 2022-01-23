@@ -19,7 +19,9 @@ function Hour({ time }: HourProps) {
     <div
       ref={setNodeRef}
       className={
-        isOver ? "h-12 bg-slate-200 even:border-b" : "h-12 even:border-b"
+        isOver
+          ? "h-12 bg-slate-200 even:border-b dark:border-slate-700"
+          : "h-12 even:border-b dark:border-slate-700"
       }
     >
       <small>
@@ -31,8 +33,8 @@ function Hour({ time }: HourProps) {
 
 export function Day({ date, tasks }: DayProps) {
   return (
-    <div className="relative">
-      <div className="bg-white sticky top-0 py-2 px-1 border-b">
+    <div className="relative dark:border-slate-700">
+      <div className="bg-white dark:bg-slate-900 sticky top-0 py-2 px-1 border-b dark:border-slate-700">
         <h2 className="font-semibold">{date.getDate()}</h2>
       </div>
 

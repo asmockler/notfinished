@@ -14,7 +14,13 @@ export function Page({ children }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {children}
+      <div
+        className="
+          bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-200
+        "
+      >
+        {children}
+      </div>
     </>
   );
 }

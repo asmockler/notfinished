@@ -84,7 +84,7 @@ const Home: NextPage = () => {
             />
           )}
 
-          <div className="overflow-y-auto border-l">
+          <div className="overflow-y-auto border-l dark:border-slate-700">
             <div className="p-4 flex flex-col gap-y-2">
               <h2 className="font-semibold text-2xl">Tasks</h2>
 
