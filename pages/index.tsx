@@ -1,4 +1,8 @@
-import type { NextPage } from "next";
+import type {
+  InferGetServerSidePropsType,
+  GetServerSideProps,
+  NextPage,
+} from "next";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { DndContext } from "@dnd-kit/core";
 import { useState } from "react";
@@ -6,18 +10,21 @@ import { getSession } from "next-auth/react";
 import { Page, TextField } from "../components/ui-kit";
 import { Calendar } from "../components/Home/Calendar";
 import { TaskList } from "../components/Home/TaskList";
+import Image from "next/image";
 
-export async function getServerSideProps(context: any) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
 
   console.log(session?.user);
 
   return {
-    props: { session },
+    props: { user: session?.user },
   };
-}
+};
 
-const Home: NextPage = () => {
+const Home: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ user }) => {
   const { loading, data, refetch } = useQuery(gql`
     query TasksQuery {
       users {
@@ -84,8 +91,8 @@ const Home: NextPage = () => {
             />
           )}
 
-          <div className="overflow-y-auto border-l dark:border-slate-700">
-            <div className="p-4 flex flex-col gap-y-2">
+          <div className="border-l dark:border-slate-700 grid grid-rows-[2fr_min-content] h-screen">
+            <div className="p-4 flex flex-col gap-y-2 overflow-y-auto">
               <h2 className="font-semibold text-2xl">Tasks</h2>
 
               <TextField />
@@ -100,6 +107,16 @@ const Home: NextPage = () => {
                   activeTaskId={activeDrag}
                 />
               )}
+            </div>
+
+            <div className="border-t p-4 dark:border-slate-700 flex justify-end items-center">
+              <Image
+                src={user.image}
+                alt=""
+                width={35}
+                height={35}
+                className="rounded-full"
+              />
             </div>
           </div>
         </div>
