@@ -1,10 +1,21 @@
 import type { NextPage } from "next";
 import { useQuery, gql, useMutation } from "@apollo/client";
+import { DndContext } from "@dnd-kit/core";
+import { useState } from "react";
+import { getSession } from "next-auth/react";
 import { Page, TextField } from "../components/ui-kit";
 import { Calendar } from "../components/Home/Calendar";
 import { TaskList } from "../components/Home/TaskList";
-import { DndContext } from "@dnd-kit/core";
-import { useState } from "react";
+
+export async function getServerSideProps(context: any) {
+  const session = await getSession(context);
+
+  console.log(session?.user);
+
+  return {
+    props: { session },
+  };
+}
 
 const Home: NextPage = () => {
   const { loading, data, refetch } = useQuery(gql`

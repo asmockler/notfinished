@@ -5,6 +5,7 @@ export const UserTypes = gql`
   type User {
     id: Int!
     name: String
+    email: String!
     tasks: [Task!]!
   }
 `;
