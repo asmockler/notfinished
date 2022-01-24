@@ -64,7 +64,6 @@ const Home: NextPage = () => {
       <DndContext
         sensors={sensors}
         onDragStart={(event) => {
-          console.log("drag start index", event);
           setActiveDrag(event.active.id);
         }}
         onDragEnd={(event) => {
@@ -77,8 +76,6 @@ const Home: NextPage = () => {
             handleDragEnd(Number(event.active.id), null);
             return;
           }
-
-          console.log("drag end index", event.over?.data.current);
 
           handleDragEnd(
             Number(event.active.id),

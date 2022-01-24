@@ -1,5 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
-import { DragOverlay, useDroppable, DndContext } from "@dnd-kit/core";
+import classnames from "classnames";
+import { DragOverlay, useDroppable } from "@dnd-kit/core";
 import { Draggable } from "./Draggable";
 
 interface Task {
@@ -56,6 +57,11 @@ export function TaskList({ tasks, activeTaskId }: Props) {
     id: "TASK_LIST",
   });
 
+  const classes = classnames(
+    "flex flex-col gap-y-2 p-2 h-full rounded-lg",
+    isOver && "bg-slate-100 dark:bg-slate-800"
+  );
+
   const activeTask =
     activeTaskId == null
       ? null
@@ -64,14 +70,7 @@ export function TaskList({ tasks, activeTaskId }: Props) {
   return (
     <>
       <div className="px-2 h-full">
-        <div
-          className={
-            isOver
-              ? "flex flex-col gap-y-2 p-2 h-full rounded-lg bg-slate-100 dark:bg-slate-800"
-              : "flex flex-col gap-y-2 p-2 h-full rounded-lg"
-          }
-          ref={setNodeRef}
-        >
+        <div className={classes} ref={setNodeRef}>
           {tasks.map((task: Task) => {
             if (task.id.toString() === activeTaskId) {
               return null;

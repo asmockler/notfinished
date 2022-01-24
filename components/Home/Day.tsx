@@ -1,5 +1,8 @@
 import { useDroppable } from "@dnd-kit/core";
+import classnames from "classnames";
+import { isToday } from "date-fns";
 import { CalendarItem } from "./CalendarItem";
+import { NowIndicator } from "./NowIndicator";
 
 interface HourProps {
   time: Date;
@@ -15,22 +18,20 @@ function Hour({ time }: HourProps) {
     id: time.toString(),
     data: { time },
   });
-
-  return (
-    <div
-      ref={setNodeRef}
-      className={
-        isOver
-          ? "h-[30px] bg-slate-200 dark:bg-slate-800 even:border-b dark:border-slate-700"
-          : "h-[30px] even:border-b dark:border-slate-700"
-      }
-    />
+  const classes = classnames(
+    "h-[30px] dark:border-slate-700",
+    time.getHours() !== 23 && "even:border-b",
+    isOver && "bg-slate-200 dark:bg-slate-800"
   );
+
+  return <div ref={setNodeRef} className={classes} />;
 }
 
 export function Day({ date, tasks }: DayProps) {
   return (
     <div className="relative dark:border-slate-700">
+      {isToday(date) ? <NowIndicator /> : null}
+
       <div className="relative">
         {Array(48)
           .fill(0)

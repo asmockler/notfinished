@@ -11,9 +11,10 @@ export function CalendarItem({ id, duration, name }: Props) {
     <Draggable id={id}>
       <div
         className="
-        bg-gradient-to-br from-indigo-700 to-indigo-500
-        text-white rounded-lg px-2 py-1 text-xs
-        whitespace-nowrap overflow-ellipsis overflow-hidden
+          bg-gradient-to-br from-indigo-700 to-indigo-500
+          text-white rounded-lg px-2 py-1 text-xs
+          whitespace-nowrap overflow-ellipsis overflow-hidden
+          ml-1
         "
         style={{ height: duration - 2, marginTop: 1, marginBottom: 1 }}
       >
