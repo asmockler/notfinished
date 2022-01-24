@@ -47,6 +47,7 @@ export type MutationUserCreateArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  me?: Maybe<User>;
   users: Array<User>;
 };
 
@@ -71,6 +72,7 @@ export type TaskUpdateInput = {
 
 export type User = {
   __typename?: 'User';
+  email: Scalars['String'];
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
   tasks: Array<Task>;
@@ -190,6 +192,7 @@ export type MutationResolvers<ContextType = ApolloContext, ParentType extends Re
 }>;
 
 export type QueryResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
 }>;
 
@@ -203,6 +206,7 @@ export type TaskResolvers<ContextType = ApolloContext, ParentType extends Resolv
 }>;
 
 export type UserResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tasks?: Resolver<Array<ResolversTypes['Task']>, ParentType, ContextType>;

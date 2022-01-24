@@ -1,37 +1,22 @@
-import type {
-  InferGetServerSidePropsType,
-  GetServerSideProps,
-  NextPage,
-} from "next";
+import type { NextPage } from "next";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { DndContext } from "@dnd-kit/core";
 import { useState } from "react";
-import { getSession } from "next-auth/react";
 import { Page, TextField } from "../components/ui-kit";
 import { Calendar } from "../components/Home/Calendar";
 import { TaskList } from "../components/Home/TaskList";
 import Image from "next/image";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-
-  return {
-    props: { user: session?.user },
-  };
-};
-
-const Home: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ user }) => {
-  const { loading, data, refetch } = useQuery(gql`
+const Home: NextPage = () => {
+  const { loading, data, error, refetch } = useQuery(gql`
     query TasksQuery {
-      users {
-        name
+      me {
+        id
+        email
+        image
         tasks {
           id
           name
-          time
-          duration
         }
       }
     }
@@ -84,9 +69,7 @@ const Home: NextPage<
             <p>Loading</p>
           ) : (
             <Calendar
-              tasks={data.users[0].tasks.filter(
-                (task: any) => task.time != null
-              )}
+              tasks={data.me.tasks.filter((task: any) => task.time != null)}
             />
           )}
 
@@ -100,22 +83,22 @@ const Home: NextPage<
                 <p>Loading</p>
               ) : (
                 <TaskList
-                  tasks={data.users[0].tasks.filter(
-                    (task: any) => task.time == null
-                  )}
+                  tasks={data.me.tasks.filter((task: any) => task.time == null)}
                   activeTaskId={activeDrag}
                 />
               )}
             </div>
 
             <div className="border-t p-4 dark:border-slate-700 flex justify-end items-center">
-              <Image
-                src={user.image}
-                alt=""
-                width={35}
-                height={35}
-                className="rounded-full"
-              />
+              {loading ? null : (
+                <Image
+                  src={data.me.image}
+                  alt=""
+                  width={35}
+                  height={35}
+                  className="rounded-full"
+                />
+              )}
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { QueryResolvers } from "./types";
 export const QueryTypes = gql`
   type Query {
     users: [User!]!
+    me: User
   }
 `;
 
@@ -12,5 +13,8 @@ export const QueryResolver: QueryResolvers = {
     const users = await db.user.findMany();
 
     return users;
+  },
+  me: async (_, __, { currentUser }) => {
+    return currentUser;
   },
 };

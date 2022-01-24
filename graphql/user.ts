@@ -6,6 +6,7 @@ export const UserTypes = gql`
     id: Int!
     name: String
     email: String!
+    image: String
     tasks: [Task!]!
   }
 `;
