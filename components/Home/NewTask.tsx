@@ -18,12 +18,18 @@ export function NewTask() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (taskName === "") {
+      return;
+    }
+
     try {
       const foo = await mutate({
         variables: { input: { name: taskName, userId: 1 } },
       });
 
       if (foo.errors) console.error(JSON.stringify(foo.errors, null, 2));
+
+      setTaskName("");
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));
     }
