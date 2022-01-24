@@ -17,6 +17,8 @@ const Home: NextPage = () => {
         tasks {
           id
           name
+          time
+          duration
         }
       }
     }
@@ -32,7 +34,7 @@ const Home: NextPage = () => {
     }
   `);
 
-  async function handleDragEnd(id: number, time: Date) {
+  async function handleDragEnd(id: number, time: Date | null) {
     const mutRes = await mutate({
       variables: {
         input: { taskId: id, time },
@@ -54,14 +56,22 @@ const Home: NextPage = () => {
           setActiveDrag(event.active.id);
         }}
         onDragEnd={(event) => {
+          setActiveDrag(null);
+          if (event.over == null) {
+            return;
+          }
+
+          if (event.over?.id === "TASK_LIST") {
+            handleDragEnd(Number(event.active.id), null);
+            return;
+          }
+
           console.log("drag end index", event.over?.data.current);
 
           handleDragEnd(
             Number(event.active.id),
             event.over!.data.current!.time
           );
-
-          setActiveDrag(null);
         }}
       >
         <div className="grid grid-cols-[1fr_250px]">
@@ -74,10 +84,12 @@ const Home: NextPage = () => {
           )}
 
           <div className="border-l dark:border-slate-700 grid grid-rows-[2fr_min-content] h-screen">
-            <div className="p-4 flex flex-col gap-y-2 overflow-y-auto">
-              <h2 className="font-semibold text-2xl">Tasks</h2>
+            <div className="py-4 flex flex-col gap-y-2 overflow-y-auto">
+              <h2 className="font-semibold text-2xl px-4">Tasks</h2>
 
-              <TextField />
+              <div className="px-4">
+                <TextField />
+              </div>
 
               {loading ? (
                 <p>Loading</p>

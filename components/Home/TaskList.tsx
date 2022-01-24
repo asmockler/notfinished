@@ -1,4 +1,4 @@
-import { DragOverlay } from "@dnd-kit/core";
+import { DragOverlay, useDroppable } from "@dnd-kit/core";
 import { Draggable } from "./Draggable";
 
 interface Task {
@@ -20,6 +20,10 @@ function Task({ task }: { task: Task }) {
 }
 
 export function TaskList({ tasks, activeTaskId }: Props) {
+  const { isOver, setNodeRef } = useDroppable({
+    id: "TASK_LIST",
+  });
+
   const activeTask =
     activeTaskId == null
       ? null
@@ -27,17 +31,26 @@ export function TaskList({ tasks, activeTaskId }: Props) {
 
   return (
     <>
-      <div className="flex flex-col gap-y-2">
-        {tasks.map((task: Task) => {
-          if (task.id.toString() === activeTaskId) {
-            return null;
+      <div className="px-2">
+        <div
+          className={
+            isOver
+              ? "flex flex-col gap-y-2 p-2 h-full rounded-lg bg-slate-100"
+              : "flex flex-col gap-y-2 p-2 h-full rounded-lg"
           }
-          return (
-            <Draggable key={task.id} id={task.id.toString()}>
-              <Task task={task} />
-            </Draggable>
-          );
-        })}
+          ref={setNodeRef}
+        >
+          {tasks.map((task: Task) => {
+            if (task.id.toString() === activeTaskId) {
+              return null;
+            }
+            return (
+              <Draggable key={task.id} id={task.id.toString()}>
+                <Task task={task} />
+              </Draggable>
+            );
+          })}
+        </div>
       </div>
 
       <DragOverlay>
