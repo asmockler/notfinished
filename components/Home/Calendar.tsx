@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { isToday, startOfWeek, subWeeks, addWeeks } from "date-fns";
 import { Day } from "./Day";
 
 interface Props {
@@ -24,7 +25,7 @@ const formatHour = new Intl.DateTimeFormat("en", {
 }).format;
 
 export function Calendar({ tasks }: Props) {
-  const [firstDate, setFirstDate] = useState(new Date());
+  const [firstDate, setFirstDate] = useState(startOfWeek(new Date()));
 
   const lastDate = new Date(firstDate);
   lastDate.setDate(lastDate.getDate() + 6);
@@ -45,24 +46,20 @@ export function Calendar({ tasks }: Props) {
               bg-slate-100 hover:bg-slate-200 rounded-md px-3 py-1
               dark:bg-slate-800 dark:hover:bg-slate-700
             "
-            onClick={() => setFirstDate(new Date())}
+            onClick={() => setFirstDate(startOfWeek(new Date()))}
           >
             Today
           </button>
           <button
             onClick={() => {
-              const newDate = new Date(firstDate);
-              newDate.setDate(newDate.getDate() - 1);
-              setFirstDate(newDate);
+              setFirstDate(subWeeks(firstDate, 1));
             }}
           >
             &larr;
           </button>
           <button
             onClick={() => {
-              const newDate = new Date(firstDate);
-              newDate.setDate(newDate.getDate() + 1);
-              setFirstDate(newDate);
+              setFirstDate(addWeeks(firstDate, 1));
             }}
           >
             &rarr;
@@ -88,9 +85,17 @@ export function Calendar({ tasks }: Props) {
               date.setDate(date.getDate() + index);
 
               return (
-                <h2 className="py-2 px-1 font-semibold" key={index}>
-                  {formatDateWithShortMonth(date)}
-                </h2>
+                <div key={index}>
+                  <h2
+                    className={
+                      isToday(date)
+                        ? "py-2 px-1 font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-800 via-purple-600 to-pink-500 inline-block"
+                        : "py-2 px-1 font-semibold"
+                    }
+                  >
+                    {formatDateWithShortMonth(date)}
+                  </h2>
+                </div>
               );
             })}
         </div>
