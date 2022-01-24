@@ -1,0 +1,6 @@
+mutation ToggleTaskCompletion($input: TaskUpdateInput!) {
+  taskUpdate(input: $input) {
+    id
+    complete
+  }
+}

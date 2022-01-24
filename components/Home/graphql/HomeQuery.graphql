@@ -1,0 +1,14 @@
+query Home {
+  me {
+    id
+    email
+    image
+    tasks {
+      id
+      name
+      time
+      duration
+      complete
+    }
+  }
+}

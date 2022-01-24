@@ -1,6 +1,6 @@
-import { gql, useMutation } from "@apollo/client";
 import classnames from "classnames";
 import { DragOverlay, useDroppable } from "@dnd-kit/core";
+import { useToggleTaskCompletionMutation } from "./graphql/ToggleTaskCompletion";
 import { Draggable } from "./Draggable";
 
 interface Task {
@@ -15,14 +15,7 @@ interface Props {
 }
 
 function Task({ task }: { task: Task }) {
-  const [mutate] = useMutation(gql`
-    mutation ToggleTaskCompletion($input: TaskUpdateInput!) {
-      taskUpdate(input: $input) {
-        id
-        complete
-      }
-    }
-  `);
+  const [mutate] = useToggleTaskCompletionMutation();
 
   async function handleCompleteClick() {
     try {

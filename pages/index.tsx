@@ -1,49 +1,19 @@
 import type { NextPage } from "next";
-import { useQuery, gql, useMutation } from "@apollo/client";
-import {
-  DndContext,
-  useSensor,
-  useSensors,
-  PointerSensor,
-} from "@dnd-kit/core";
 import { useState } from "react";
 import Image from "next/image";
+
 import { Page } from "../components/ui-kit";
+import { useHomeQuery } from "../components/Home/graphql/HomeQuery";
+import { useUpdateTaskMutation } from "../components/Home/graphql/UpdateTaskMutation";
 import { Calendar } from "../components/Home/Calendar";
 import { TaskList } from "../components/Home/TaskList";
 import { NewTask } from "../components/Home/NewTask";
+import { HomeDndContext } from "../components/Home/HomeDndContext";
 
 const Home: NextPage = () => {
-  const pointerSensor = useSensor(PointerSensor, {
-    activationConstraint: { distance: 7 },
-  });
-  const sensors = useSensors(pointerSensor);
-  const { loading, data, refetch } = useQuery(gql`
-    query TasksQuery {
-      me {
-        id
-        email
-        image
-        tasks {
-          id
-          name
-          time
-          duration
-          complete
-        }
-      }
-    }
-  `);
-
-  const [mutate] = useMutation(gql`
-    mutation ($input: TaskUpdateInput!) {
-      taskUpdate(input: $input) {
-        id
-        time
-        name
-      }
-    }
-  `);
+  const [activeDrag, setActiveDrag] = useState<string | null>(null);
+  const { loading, data, refetch } = useHomeQuery();
+  const [mutate] = useUpdateTaskMutation();
 
   async function handleDragEnd(id: number, time: Date | null) {
     const mutRes = await mutate({
@@ -57,12 +27,17 @@ const Home: NextPage = () => {
     refetch();
   }
 
-  const [activeDrag, setActiveDrag] = useState<string | null>(null);
+  if (loading || data == null) {
+    return <p>Loading...</p>;
+  }
+
+  if (data.me == null) {
+    return <p>Time to log in!</p>;
+  }
 
   return (
     <Page>
-      <DndContext
-        sensors={sensors}
+      <HomeDndContext
         onDragStart={(event) => {
           setActiveDrag(event.active.id);
         }}
@@ -100,22 +75,18 @@ const Home: NextPage = () => {
                 <NewTask />
               </div>
 
-              {loading ? (
-                <p>Loading</p>
-              ) : (
-                <div className="flex-grow">
-                  <TaskList
-                    tasks={data.me.tasks.filter(
-                      (task: any) => task.time == null
-                    )}
-                    activeTaskId={activeDrag}
-                  />
-                </div>
-              )}
+              <div className="flex-grow">
+                <TaskList
+                  tasks={data.me.tasks.filter((task: any) => task.time == null)}
+                  activeTaskId={activeDrag}
+                />
+              </div>
             </div>
 
             <div className="border-t p-4 dark:border-slate-700 flex justify-end items-center">
-              {loading ? null : (
+              {data.me.image == null ? (
+                <p>{data.me.email}</p>
+              ) : (
                 <Image
                   src={data.me.image}
                   alt=""
@@ -127,7 +98,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-      </DndContext>
+      </HomeDndContext>
     </Page>
   );
 };
