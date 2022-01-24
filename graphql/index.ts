@@ -5,6 +5,7 @@ import prisma from "../prisma/runtime";
 
 import { QueryResolver, QueryTypes } from "./query";
 import { TaskCreateResolver, TaskCreateTypes } from "./task-create";
+import { TaskDeleteResolver, TaskDeleteTypes } from "./task-delete";
 import { TaskUpdateResolver, TaskUpdateTypes } from "./task-update";
 import { TaskResolver, TaskTypes } from "./task";
 import { UserCreateResolver, UserCreateTypes } from "./user-create";
@@ -27,6 +28,7 @@ export const typeDefs = [
   Mutation,
   QueryTypes,
   TaskCreateTypes,
+  TaskDeleteTypes,
   TaskUpdateTypes,
   TaskTypes,
   UserCreateTypes,
@@ -37,6 +39,7 @@ export const resolvers = {
   DateTime: DateTime.implementation,
   Mutation: {
     taskCreate: TaskCreateResolver,
+    taskDelete: TaskDeleteResolver,
     taskUpdate: TaskUpdateResolver,
     userCreate: UserCreateResolver,
   },

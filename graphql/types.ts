@@ -26,6 +26,7 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   taskCreate?: Maybe<Task>;
+  taskDelete?: Maybe<Scalars['Boolean']>;
   taskUpdate?: Maybe<Task>;
   userCreate?: Maybe<User>;
 };
@@ -33,6 +34,11 @@ export type Mutation = {
 
 export type MutationTaskCreateArgs = {
   input: TaskCreateInput;
+};
+
+
+export type MutationTaskDeleteArgs = {
+  input: TaskDeleteInput;
 };
 
 
@@ -63,6 +69,10 @@ export type Task = {
 export type TaskCreateInput = {
   name: Scalars['String'];
   userId: Scalars['Int'];
+};
+
+export type TaskDeleteInput = {
+  taskId: Scalars['Int'];
 };
 
 export type TaskUpdateInput = {
@@ -163,6 +173,7 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']>;
   Task: ResolverTypeWrapper<Task>;
   TaskCreateInput: TaskCreateInput;
+  TaskDeleteInput: TaskDeleteInput;
   TaskUpdateInput: TaskUpdateInput;
   User: ResolverTypeWrapper<UserPrisma>;
   UserCreateInput: UserCreateInput;
@@ -178,6 +189,7 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String'];
   Task: Task;
   TaskCreateInput: TaskCreateInput;
+  TaskDeleteInput: TaskDeleteInput;
   TaskUpdateInput: TaskUpdateInput;
   User: UserPrisma;
   UserCreateInput: UserCreateInput;
@@ -189,6 +201,7 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type MutationResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   taskCreate?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationTaskCreateArgs, 'input'>>;
+  taskDelete?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationTaskDeleteArgs, 'input'>>;
   taskUpdate?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationTaskUpdateArgs, 'input'>>;
   userCreate?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUserCreateArgs, 'input'>>;
 }>;
