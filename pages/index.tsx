@@ -2,10 +2,11 @@ import type { NextPage } from "next";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { DndContext } from "@dnd-kit/core";
 import { useState } from "react";
-import { Page, TextField } from "../components/ui-kit";
+import Image from "next/image";
+import { Page } from "../components/ui-kit";
 import { Calendar } from "../components/Home/Calendar";
 import { TaskList } from "../components/Home/TaskList";
-import Image from "next/image";
+import { NewTask } from "../components/Home/NewTask";
 
 const Home: NextPage = () => {
   const { loading, data, error, refetch } = useQuery(gql`
@@ -88,16 +89,20 @@ const Home: NextPage = () => {
               <h2 className="font-semibold text-2xl px-4">Tasks</h2>
 
               <div className="px-4">
-                <TextField />
+                <NewTask />
               </div>
 
               {loading ? (
                 <p>Loading</p>
               ) : (
-                <TaskList
-                  tasks={data.me.tasks.filter((task: any) => task.time == null)}
-                  activeTaskId={activeDrag}
-                />
+                <div className="flex-grow">
+                  <TaskList
+                    tasks={data.me.tasks.filter(
+                      (task: any) => task.time == null
+                    )}
+                    activeTaskId={activeDrag}
+                  />
+                </div>
               )}
             </div>
 

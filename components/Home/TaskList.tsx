@@ -13,7 +13,7 @@ interface Props {
 
 function Task({ task }: { task: Task }) {
   return (
-    <div className="bg-blue-600 text-white rounded-md px-3 py-1">
+    <div className="bg-blue-600 text-white rounded-md px-3 py-1 text-sm">
       {task.name}
     </div>
   );
@@ -31,7 +31,7 @@ export function TaskList({ tasks, activeTaskId }: Props) {
 
   return (
     <>
-      <div className="px-2">
+      <div className="px-2 h-full">
         <div
           className={
             isOver
