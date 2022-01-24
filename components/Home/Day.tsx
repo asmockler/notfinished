@@ -55,9 +55,10 @@ export function Day({ date, tasks }: DayProps) {
               }}
             >
               <CalendarItem
-                id={task.id.toString()}
+                id={task.id}
                 name={task.name}
                 duration={task.duration}
+                complete={task.complete}
               />
             </div>
           );
