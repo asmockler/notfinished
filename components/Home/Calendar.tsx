@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Day } from "./components";
+import { Day } from "./Day";
 
 interface Props {
   tasks: any[];

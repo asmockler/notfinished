@@ -15,8 +15,6 @@ import Image from "next/image";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
 
-  console.log(session?.user);
-
   return {
     props: { user: session?.user },
   };
@@ -33,6 +31,7 @@ const Home: NextPage<
           id
           name
           time
+          duration
         }
       }
     }

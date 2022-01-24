@@ -1,4 +1,5 @@
 import { useDroppable } from "@dnd-kit/core";
+import { CalendarItem } from "./CalendarItem";
 
 interface HourProps {
   time: Date;
@@ -49,7 +50,7 @@ export function Day({ date, tasks, showTimes }: DayProps) {
         <h2 className="font-semibold">{formatDay(date)}</h2>
       </div>
 
-      <div>
+      <div className="relative">
         {Array(48)
           .fill(0)
           .map((_, index) => {
@@ -62,12 +63,13 @@ export function Day({ date, tasks, showTimes }: DayProps) {
         {tasks.map((task: any) => (
           <div
             key={task.id}
-            className="absolute h-24 bg-fuchsia-600 text-white w-10/12 rounded-md p-2 left-2"
+            className="absolute left-0 w-11/12"
             style={{
               top: new Date(task.time).getHours() * 48 * 2,
+              height: (task.duration / 30) * 48,
             }}
           >
-            {task.name}
+            <CalendarItem id={task.id.toString()} name={task.name} />
           </div>
         ))}
       </div>
