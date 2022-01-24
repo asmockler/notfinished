@@ -1,9 +1,11 @@
-import { DragOverlay, useDroppable } from "@dnd-kit/core";
+import { gql, useMutation } from "@apollo/client";
+import { DragOverlay, useDroppable, DndContext } from "@dnd-kit/core";
 import { Draggable } from "./Draggable";
 
 interface Task {
   id: number;
   name: string;
+  complete: boolean;
 }
 
 interface Props {
@@ -12,9 +14,39 @@ interface Props {
 }
 
 function Task({ task }: { task: Task }) {
+  const [mutate] = useMutation(gql`
+    mutation ToggleTaskCompletion($input: TaskUpdateInput!) {
+      taskUpdate(input: $input) {
+        id
+        complete
+      }
+    }
+  `);
+
+  async function handleCompleteClick() {
+    try {
+      await mutate({
+        variables: {
+          input: {
+            taskId: task.id,
+            complete: !task.complete,
+          },
+        },
+      });
+    } catch (err) {
+      console.error(JSON.stringify(err, null, 2));
+    }
+  }
+
   return (
-    <div className="bg-blue-600 text-white rounded-md px-3 py-1 text-sm">
-      {task.name}
+    <div className="bg-gradient-to-br from-blue-600 to-sky-400 dark:from-blue-800 dark:to-sky-600 text-white rounded-md px-2 py-1 text-sm flex items-center gap-2">
+      <button
+        className="w-4 h-4 rounded-full border hover:bg-white hover:bg-opacity-40"
+        onClick={handleCompleteClick}
+      />
+      <p className="flex-grow select-none">
+        {task.complete ? <s className="opacity-60">{task.name}</s> : task.name}
+      </p>
     </div>
   );
 }
@@ -35,7 +67,7 @@ export function TaskList({ tasks, activeTaskId }: Props) {
         <div
           className={
             isOver
-              ? "flex flex-col gap-y-2 p-2 h-full rounded-lg bg-slate-100"
+              ? "flex flex-col gap-y-2 p-2 h-full rounded-lg bg-slate-100 dark:bg-slate-800"
               : "flex flex-col gap-y-2 p-2 h-full rounded-lg"
           }
           ref={setNodeRef}

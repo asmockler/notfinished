@@ -21,7 +21,7 @@ function Hour({ time }: HourProps) {
       ref={setNodeRef}
       className={
         isOver
-          ? "h-[30px] bg-slate-200 even:border-b dark:border-slate-700"
+          ? "h-[30px] bg-slate-200 dark:bg-slate-800 even:border-b dark:border-slate-700"
           : "h-[30px] even:border-b dark:border-slate-700"
       }
     />

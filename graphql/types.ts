@@ -66,6 +66,7 @@ export type TaskCreateInput = {
 };
 
 export type TaskUpdateInput = {
+  complete?: InputMaybe<Scalars['Boolean']>;
   taskId: Scalars['Int'];
   time?: InputMaybe<Scalars['DateTime']>;
 };
@@ -74,6 +75,7 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String'];
   id: Scalars['Int'];
+  image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   tasks: Array<Task>;
 };
@@ -208,6 +210,7 @@ export type TaskResolvers<ContextType = ApolloContext, ParentType extends Resolv
 export type UserResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tasks?: Resolver<Array<ResolversTypes['Task']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

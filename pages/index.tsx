@@ -1,6 +1,11 @@
 import type { NextPage } from "next";
 import { useQuery, gql, useMutation } from "@apollo/client";
-import { DndContext } from "@dnd-kit/core";
+import {
+  DndContext,
+  useSensor,
+  useSensors,
+  PointerSensor,
+} from "@dnd-kit/core";
 import { useState } from "react";
 import Image from "next/image";
 import { Page } from "../components/ui-kit";
@@ -9,7 +14,11 @@ import { TaskList } from "../components/Home/TaskList";
 import { NewTask } from "../components/Home/NewTask";
 
 const Home: NextPage = () => {
-  const { loading, data, error, refetch } = useQuery(gql`
+  const pointerSensor = useSensor(PointerSensor, {
+    activationConstraint: { distance: 7 },
+  });
+  const sensors = useSensors(pointerSensor);
+  const { loading, data, refetch } = useQuery(gql`
     query TasksQuery {
       me {
         id
@@ -20,6 +29,7 @@ const Home: NextPage = () => {
           name
           time
           duration
+          complete
         }
       }
     }
@@ -52,6 +62,7 @@ const Home: NextPage = () => {
   return (
     <Page>
       <DndContext
+        sensors={sensors}
         onDragStart={(event) => {
           console.log("drag start index", event);
           setActiveDrag(event.active.id);

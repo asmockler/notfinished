@@ -89,8 +89,8 @@ export function Calendar({ tasks }: Props) {
                   <h2
                     className={
                       isToday(date)
-                        ? "py-2 px-1 font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-800 via-purple-600 to-pink-500 inline-block"
-                        : "py-2 px-1 font-semibold"
+                        ? "text-lg py-2 px-1 font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-800 via-purple-600 to-pink-500 inline-block dark:from-sky-400 dark:via-purple-400 dark:to-pink-600"
+                        : "text-lg py-2 px-1 font-semibold"
                     }
                   >
                     {formatDateWithShortMonth(date)}

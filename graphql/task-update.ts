@@ -5,6 +5,7 @@ export const TaskUpdateTypes = gql`
   input TaskUpdateInput {
     taskId: Int!
     time: DateTime
+    complete: Boolean
   }
 
   extend type Mutation {
@@ -21,6 +22,8 @@ export const TaskUpdateResolver: MutationResolvers["taskUpdate"] = async (
     where: { id: input.taskId },
     data: {
       time: input.time,
+      complete:
+        typeof input.complete === "boolean" ? input.complete : undefined,
     },
   });
 

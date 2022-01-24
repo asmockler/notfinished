@@ -18,7 +18,7 @@ export function TextField({
   value,
 }: Props) {
   return (
-    <div className="rounded-md border border-slate-500 flex">
+    <div className="rounded-md border border-slate-500 dark:border-slate-200 flex">
       <input
         autoComplete={autoComplete}
         className="p-2 rounded-md bg-transparent w-full"
