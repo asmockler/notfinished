@@ -2,14 +2,25 @@ import { useDroppable } from "@dnd-kit/core";
 
 interface HourProps {
   time: Date;
+  showTimes: boolean;
 }
 
 interface DayProps {
   date: Date;
   tasks: any[];
+  showTimes: boolean;
 }
 
-function Hour({ time }: HourProps) {
+const formatDay = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+}).format;
+
+const formatHour = new Intl.DateTimeFormat("en", {
+  hour: "numeric",
+}).format;
+
+function Hour({ time, showTimes }: HourProps) {
   const { isOver, setNodeRef } = useDroppable({
     id: time.toString(),
     data: { time },
@@ -24,18 +35,18 @@ function Hour({ time }: HourProps) {
           : "h-12 even:border-b dark:border-slate-700"
       }
     >
-      <small>
-        {time.getHours()}:{time.getMinutes()}
-      </small>
+      {showTimes && time.getMinutes() === 0 ? (
+        <small>{formatHour(time)}</small>
+      ) : null}
     </div>
   );
 }
 
-export function Day({ date, tasks }: DayProps) {
+export function Day({ date, tasks, showTimes }: DayProps) {
   return (
     <div className="relative dark:border-slate-700">
       <div className="bg-white dark:bg-slate-900 sticky top-0 py-2 px-1 border-b dark:border-slate-700">
-        <h2 className="font-semibold">{date.getDate()}</h2>
+        <h2 className="font-semibold">{formatDay(date)}</h2>
       </div>
 
       <div>
@@ -45,7 +56,7 @@ export function Day({ date, tasks }: DayProps) {
             const hour = new Date(date);
             hour.setHours(0);
             hour.setMinutes(index * 30);
-            return <Hour key={index} time={hour} />;
+            return <Hour key={index} time={hour} showTimes={showTimes} />;
           })}
 
         {tasks.map((task: any) => (

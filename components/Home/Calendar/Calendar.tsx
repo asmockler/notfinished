@@ -5,19 +5,42 @@ interface Props {
   tasks: any[];
 }
 
+const formatDateWithMonth = new Intl.DateTimeFormat("en", {
+  month: "long",
+  day: "numeric",
+}).format;
+
+const formatDateWithoutMonth = new Intl.DateTimeFormat("en", {
+  day: "numeric",
+}).format;
+
 export function Calendar({ tasks }: Props) {
   const [firstDate, setFirstDate] = useState(new Date());
+
+  const lastDate = new Date(firstDate);
+  lastDate.setDate(lastDate.getDate() + 6);
 
   return (
     <div className="h-screen grid grid-rows-[min-content_1fr]">
       <div className="flex justify-between items-center">
         <div className="p-2 text-3xl font-semibold">
-          {new Intl.DateTimeFormat("en", { month: "long" }).format(firstDate)}
+          {formatDateWithMonth(firstDate)} –{" "}
+          {firstDate.getMonth() === lastDate.getMonth()
+            ? formatDateWithoutMonth(lastDate)
+            : formatDateWithMonth(lastDate)}
         </div>
 
-        <div className="pr-2">
+        <div className="pr-2 flex gap-6">
           <button
-            className="px-2"
+            className="
+              bg-slate-100 hover:bg-slate-200 rounded-md px-3 py-1
+              dark:bg-slate-800 dark:hover:bg-slate-700
+            "
+            onClick={() => setFirstDate(new Date())}
+          >
+            Today
+          </button>
+          <button
             onClick={() => {
               const newDate = new Date(firstDate);
               newDate.setDate(newDate.getDate() - 1);
@@ -27,7 +50,6 @@ export function Calendar({ tasks }: Props) {
             &larr;
           </button>
           <button
-            className="px-2"
             onClick={() => {
               const newDate = new Date(firstDate);
               newDate.setDate(newDate.getDate() + 1);
@@ -48,7 +70,14 @@ export function Calendar({ tasks }: Props) {
             const tasksOnDate = tasks.filter((task: any) => {
               return new Date(task.time).getDate() === date.getDate();
             });
-            return <Day key={index} date={date} tasks={tasksOnDate} />;
+            return (
+              <Day
+                key={index}
+                date={date}
+                tasks={tasksOnDate}
+                showTimes={index === 0}
+              />
+            );
           })}
       </div>
     </div>
