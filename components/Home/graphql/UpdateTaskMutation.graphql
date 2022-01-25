@@ -4,5 +4,6 @@ mutation UpdateTask($input: TaskUpdateInput!) {
     time
     name
     complete
+    duration
   }
 }

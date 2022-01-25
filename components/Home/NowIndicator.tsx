@@ -1,8 +1,6 @@
 export function NowIndicator() {
   const now = new Date();
 
-  console.log("cool");
-
   return (
     <div
       className="

@@ -6,12 +6,33 @@ export const TaskUpdateTypes = gql`
     taskId: Int!
     time: DateTime
     complete: Boolean
+    duration: Int
   }
 
   extend type Mutation {
     taskUpdate(input: TaskUpdateInput!): Task
   }
 `;
+
+type ObjectWithNulls<T> = {
+  [K in keyof T]: T[K];
+};
+
+type ObjectWithoutNulls<T> = {
+  [K in keyof T]: NonNullable<T[K]>;
+};
+
+function filterNulls<T>(obj: ObjectWithNulls<T>): ObjectWithoutNulls<T> {
+  const filteredObject: any = {};
+
+  for (const key in obj) {
+    if (obj[key] != null) {
+      filteredObject[key] = obj[key];
+    }
+  }
+
+  return filteredObject;
+}
 
 export const TaskUpdateResolver: MutationResolvers["taskUpdate"] = async (
   _,
@@ -20,11 +41,11 @@ export const TaskUpdateResolver: MutationResolvers["taskUpdate"] = async (
 ) => {
   const task = await db.task.update({
     where: { id: input.taskId },
-    data: {
+    data: filterNulls({
       time: input.time,
-      complete:
-        typeof input.complete === "boolean" ? input.complete : undefined,
-    },
+      complete: input.complete,
+      duration: input.duration,
+    }),
   });
 
   return task;

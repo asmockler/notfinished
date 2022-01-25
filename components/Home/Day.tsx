@@ -2,6 +2,7 @@ import { useDroppable } from "@dnd-kit/core";
 import classnames from "classnames";
 import { isToday } from "date-fns";
 
+import { Draggable } from "./Draggable";
 import { CalendarItem } from "./CalendarItem";
 import { NowIndicator } from "./NowIndicator";
 
@@ -54,12 +55,14 @@ export function Day({ date, tasks }: DayProps) {
                 top: taskTime.getHours() * 60 + taskTime.getMinutes(),
               }}
             >
-              <CalendarItem
-                id={task.id}
-                name={task.name}
-                duration={task.duration}
-                complete={task.complete}
-              />
+              <Draggable id={task.id.toString()}>
+                <CalendarItem
+                  id={task.id}
+                  name={task.name}
+                  duration={task.duration}
+                  complete={task.complete}
+                />
+              </Draggable>
             </div>
           );
         })}

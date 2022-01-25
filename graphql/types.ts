@@ -77,6 +77,7 @@ export type TaskDeleteInput = {
 
 export type TaskUpdateInput = {
   complete?: InputMaybe<Scalars['Boolean']>;
+  duration?: InputMaybe<Scalars['Int']>;
   taskId: Scalars['Int'];
   time?: InputMaybe<Scalars['DateTime']>;
 };
