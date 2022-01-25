@@ -1,0 +1,3 @@
+mutation DeleteTask($input: TaskDeleteInput!) {
+  taskDelete(input: $input)
+}

@@ -24,7 +24,7 @@ export function TextField({
         className="p-2 rounded-md bg-transparent w-full"
         name={name}
         placeholder={placeholder}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) => onChange(event.currentTarget.value)}
         type="text"
         value={value}
       />
