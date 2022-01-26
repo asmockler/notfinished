@@ -81,7 +81,7 @@ export function Calendar({ tasks }: Props) {
 
         <div
           className="
-            sticky top-0 z-10 grid
+            sticky top-0 z-[11] grid
             grid-cols-7 border-b bg-white
             dark:border-b-slate-500 dark:bg-slate-900
           "

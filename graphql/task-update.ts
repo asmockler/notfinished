@@ -26,7 +26,7 @@ function filterNulls<T>(obj: ObjectWithNulls<T>): ObjectWithoutNulls<T> {
   const filteredObject: any = {};
 
   for (const key in obj) {
-    if (obj[key] != null) {
+    if (obj[key] !== null) {
       filteredObject[key] = obj[key];
     }
   }
@@ -41,11 +41,13 @@ export const TaskUpdateResolver: MutationResolvers["taskUpdate"] = async (
 ) => {
   const task = await db.task.update({
     where: { id: input.taskId },
-    data: filterNulls({
+    data: {
       time: input.time,
-      complete: input.complete,
-      duration: input.duration,
-    }),
+      ...filterNulls({
+        duration: input.duration,
+        complete: input.complete,
+      }),
+    },
   });
 
   return task;

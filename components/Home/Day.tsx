@@ -1,6 +1,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import classnames from "classnames";
-import { isToday } from "date-fns";
+import { isToday, areIntervalsOverlapping, addMinutes } from "date-fns";
 
 import { Draggable } from "./Draggable";
 import { CalendarItem } from "./CalendarItem";
@@ -13,6 +13,33 @@ interface HourProps {
 interface DayProps {
   date: Date;
   tasks: any[];
+}
+
+class TaskUtil {
+  startTime: Date;
+  endTime: Date;
+  duration: number;
+  id: number;
+  name: string;
+  complete: boolean;
+
+  widthAdjustments = 0;
+  leftAdjustments = 0;
+
+  constructor(task: {
+    duration: number;
+    time: string;
+    id: number;
+    name: string;
+    complete: boolean;
+  }) {
+    this.startTime = new Date(task.time);
+    this.endTime = addMinutes(this.startTime, task.duration);
+    this.duration = task.duration;
+    this.id = task.id;
+    this.name = task.name;
+    this.complete = task.complete;
+  }
 }
 
 function Hour({ time }: HourProps) {
@@ -30,6 +57,26 @@ function Hour({ time }: HourProps) {
 }
 
 export function Day({ date, tasks }: DayProps) {
+  const sortedTasks = tasks
+    .map((task) => new TaskUtil(task))
+    .sort((task, otherTask) => {
+      return task.startTime.valueOf() - otherTask.startTime.valueOf();
+    });
+
+  for (let i = 0; i < sortedTasks.length; i++) {
+    const task = sortedTasks[i];
+
+    for (let j = i + 1; j < sortedTasks.length; j++) {
+      const otherTask = sortedTasks[j];
+
+      if (otherTask.startTime < task.endTime) {
+        task.widthAdjustments += 1;
+        otherTask.widthAdjustments += 1;
+        otherTask.leftAdjustments += 1;
+      }
+    }
+  }
+
   return (
     <div className="relative dark:border-slate-700">
       {isToday(date) ? <NowIndicator /> : null}
@@ -44,15 +91,17 @@ export function Day({ date, tasks }: DayProps) {
             return <Hour key={index} time={hour} />;
           })}
 
-        {tasks.map((task: any) => {
-          const taskTime = new Date(task.time);
-
+        {sortedTasks.map((task) => {
           return (
             <div
               key={task.id}
-              className="absolute left-0 w-11/12"
+              className="absolute"
               style={{
-                top: taskTime.getHours() * 60 + taskTime.getMinutes(),
+                top:
+                  task.startTime.getHours() * 60 + task.startTime.getMinutes(),
+                left: task.leftAdjustments * 30,
+                zIndex: task.leftAdjustments,
+                width: `calc(95% - ${task.widthAdjustments * 30}px)`,
               }}
             >
               <Draggable id={task.id.toString()}>

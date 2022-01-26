@@ -1,5 +1,15 @@
+import { useEffect, useState } from "react";
+
 export function NowIndicator() {
-  const now = new Date();
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setNow(new Date());
+    }, 30_000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div
