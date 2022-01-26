@@ -42,11 +42,11 @@ export function CalendarItem({ id, duration, name, complete = false }: Props) {
   return (
     <div
       className="
-          relative ml-1 rounded-md
-          bg-gradient-to-br from-indigo-700 to-indigo-500 px-1.5 py-1.5
-          text-xs text-white
+          relative left-px rounded-md
+          border bg-gradient-to-br from-indigo-700 to-indigo-500 px-1.5
+          py-[5px] text-xs text-white
         "
-      style={{ height: duration - 2, marginTop: 1, marginBottom: 1 }}
+      style={{ height: duration }}
     >
       <div className="flex items-center gap-1.5">
         <CheckButton checked={complete} onClick={handleCompleteClick} />
