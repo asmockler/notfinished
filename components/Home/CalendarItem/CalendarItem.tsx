@@ -1,3 +1,4 @@
+import { CheckButton } from "../CheckButton";
 import { useToggleTaskCompletionMutation } from "../graphql/ToggleTaskCompletion";
 import { useUpdateTaskMutation } from "../graphql/UpdateTaskMutation";
 import { ResizeHandle } from "./ResizeHandle";
@@ -48,10 +49,7 @@ export function CalendarItem({ id, duration, name, complete = false }: Props) {
       style={{ height: duration - 2, marginTop: 1, marginBottom: 1 }}
     >
       <div className="flex items-center gap-1.5">
-        <button
-          className="w-4 h-4 rounded-full border hover:bg-white hover:bg-opacity-40 flex-shrink-0"
-          onClick={handleCompleteClick}
-        ></button>
+        <CheckButton checked={complete} onClick={handleCompleteClick} />
 
         <p
           className="flex-grow select-none whitespace-nowrap overflow-ellipsis overflow-hidden"

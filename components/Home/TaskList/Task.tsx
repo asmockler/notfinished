@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CheckButton } from "../CheckButton";
 import { useToggleTaskCompletionMutation } from "../graphql/ToggleTaskCompletion";
 import { Dropdown } from "./Dropdown";
 import type { TaskListTask } from "./types";
@@ -27,10 +28,7 @@ export function Task({ task }: Props) {
 
   return (
     <div className="bg-gradient-to-br from-blue-600 to-sky-400 dark:from-blue-800 dark:to-sky-600 text-white rounded-lg px-2 py-1 text-sm flex items-center gap-2">
-      <button
-        className="w-4 h-4 flex-shrink-0 rounded-full border hover:bg-white hover:bg-opacity-40"
-        onClick={handleCompleteClick}
-      />
+      <CheckButton checked={task.complete} onClick={handleCompleteClick} />
 
       <p className="select-none flex-grow text-left">
         {task.complete ? <s className="opacity-60">{task.name}</s> : task.name}
