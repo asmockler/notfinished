@@ -27,10 +27,10 @@ export function Task({ task }: Props) {
   }
 
   return (
-    <div className="bg-gradient-to-br from-blue-600 to-sky-400 dark:from-blue-800 dark:to-sky-600 text-white rounded-lg px-2 py-1 text-sm flex items-center gap-2">
+    <div className="flex items-center gap-2 rounded-lg bg-gradient-to-br from-blue-600 to-sky-400 px-2 py-1 text-sm text-white dark:from-blue-800 dark:to-sky-600">
       <CheckButton checked={task.complete} onClick={handleCompleteClick} />
 
-      <p className="select-none flex-grow text-left">
+      <p className="flex-grow select-none text-left">
         {task.complete ? <s className="opacity-60">{task.name}</s> : task.name}
       </p>
 

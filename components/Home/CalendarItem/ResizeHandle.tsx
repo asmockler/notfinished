@@ -39,11 +39,11 @@ function DragHandle({ id }: { id: string }) {
   return (
     <div
       className="
-        absolute left-0 bottom-0 h-2 w-full opacity-0
-        cursor-row-resize flex items-center justify-center
-        bg-white bg-opacity-30 hover:rounded-b-md
-        hover:bg-opacity-30 active:bg-opacity-30
-        hover:opacity-100 active:opacity-100
+        absolute left-0 bottom-0 flex h-2 w-full
+        cursor-row-resize items-center justify-center bg-white
+        bg-opacity-30 opacity-0 hover:rounded-b-md
+        hover:bg-opacity-30 hover:opacity-100
+        active:bg-opacity-30 active:opacity-100
       "
       {...listeners}
       ref={setNodeRef}
@@ -52,7 +52,7 @@ function DragHandle({ id }: { id: string }) {
 
       {isDragging ? (
         <div
-          className="bg-white bg-opacity-30 w-full pointer-events-none absolute top-full rounded-b-md"
+          className="pointer-events-none absolute top-full w-full rounded-b-md bg-white bg-opacity-30"
           style={{
             height:
               transform == null

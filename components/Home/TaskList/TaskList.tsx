@@ -27,7 +27,7 @@ export function TaskList({ tasks, activeTaskId }: Props) {
 
   return (
     <>
-      <div className="px-2 h-full">
+      <div className="h-full px-2">
         <div className={classes} ref={setNodeRef}>
           {tasks.map((task) => {
             if (task.id.toString() === activeTaskId) {

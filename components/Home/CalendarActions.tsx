@@ -15,7 +15,7 @@ function Button({ children, onClick }: ButtonProps) {
   return (
     <button
       className="
-        bg-slate-100 hover:bg-slate-200 rounded-lg px-3 py-1
+        rounded-lg bg-slate-100 px-3 py-1 hover:bg-slate-200
         dark:bg-slate-800 dark:hover:bg-slate-700
       "
       onClick={onClick}

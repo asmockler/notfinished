@@ -42,9 +42,9 @@ export function CalendarItem({ id, duration, name, complete = false }: Props) {
   return (
     <div
       className="
-          bg-gradient-to-br from-indigo-700 to-indigo-500
-          text-white rounded-md px-1.5 py-1.5 text-xs
-          ml-1 relative
+          relative ml-1 rounded-md
+          bg-gradient-to-br from-indigo-700 to-indigo-500 px-1.5 py-1.5
+          text-xs text-white
         "
       style={{ height: duration - 2, marginTop: 1, marginBottom: 1 }}
     >
@@ -52,7 +52,7 @@ export function CalendarItem({ id, duration, name, complete = false }: Props) {
         <CheckButton checked={complete} onClick={handleCompleteClick} />
 
         <p
-          className="flex-grow select-none whitespace-nowrap overflow-ellipsis overflow-hidden"
+          className="flex-grow select-none overflow-hidden overflow-ellipsis whitespace-nowrap"
           title={name}
         >
           {complete ? <s className="opacity-60">{name}</s> : name}

@@ -8,8 +8,8 @@ export function Button({ children }: Props) {
   return (
     <button
       className="
-        bg-emerald-200 text-emerald-900 dark:text-white dark:bg-emerald-600
-        text-sm leading-5 font-semibold py-2 px-4 rounded-lg
+        rounded-lg bg-emerald-200 py-2 px-4
+        text-sm font-semibold leading-5 text-emerald-900 dark:bg-emerald-600 dark:text-white
       "
     >
       {children}

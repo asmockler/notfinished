@@ -8,11 +8,11 @@ interface Props {
 export function CheckButton({ checked, onClick }: Props) {
   return (
     <button
-      className="w-4 h-4 rounded-full border hover:bg-white hover:bg-opacity-20 flex-shrink-0 relative"
+      className="relative h-4 w-4 flex-shrink-0 rounded-full border hover:bg-white hover:bg-opacity-20"
       onClick={onClick}
     >
       {checked ? (
-        <CheckIcon className="w-3 h-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-80" />
+        <CheckIcon className="absolute top-1/2 left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 text-white opacity-80" />
       ) : null}
     </button>
   );

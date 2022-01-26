@@ -53,8 +53,8 @@ export function Calendar({ tasks }: Props) {
   const lastDate = visibleDates[6];
 
   return (
-    <div className="h-screen grid grid-rows-[min-content_1fr]">
-      <div className="flex justify-between items-center p-2">
+    <div className="grid h-screen grid-rows-[min-content_1fr]">
+      <div className="flex items-center justify-between p-2">
         <div className="text-3xl font-bold">
           {formatDateWithMonth(firstDate)} &ndash;{" "}
           {isSameMonth(firstDate, lastDate)
@@ -71,8 +71,8 @@ export function Calendar({ tasks }: Props) {
       <div
         ref={scrollContainerRef}
         className="
-          flex-grow
-          grid grid-cols-[min-content_1fr] grid-rows-[min-content_1fr]
+          grid
+          flex-grow grid-cols-[min-content_1fr] grid-rows-[min-content_1fr]
           overflow-y-scroll
         "
       >
@@ -81,9 +81,9 @@ export function Calendar({ tasks }: Props) {
 
         <div
           className="
-            bg-white dark:bg-slate-900 border-b dark:border-b-slate-500
-            sticky top-0 z-10
-            grid grid-cols-7
+            sticky top-0 z-10 grid
+            grid-cols-7 border-b bg-white
+            dark:border-b-slate-500 dark:bg-slate-900
           "
         >
           {visibleDates.map((date) => {
@@ -110,7 +110,7 @@ export function Calendar({ tasks }: Props) {
               return (
                 <p
                   key={index}
-                  className="h-[60px] pl-2 pr-3 whitespace-nowrap text-xs text-right text-slate-500"
+                  className="h-[60px] whitespace-nowrap pl-2 pr-3 text-right text-xs text-slate-500"
                 >
                   {formatHour(time)}
                 </p>

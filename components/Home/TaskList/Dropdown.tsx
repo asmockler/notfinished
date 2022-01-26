@@ -29,24 +29,24 @@ export function Dropdown({ task }: Props) {
   return (
     <DropdownMenu.Root open={open} onOpenChange={(value) => setOpen(value)}>
       <DropdownMenu.Trigger asChild>
-        <button className="hover:bg-white hover:bg-opacity-20 px-1 py-0.5 rounded-md">
-          <DotsHorizontalIcon className="w-3 h-3 text-white opacity-60" />
+        <button className="rounded-md px-1 py-0.5 hover:bg-white hover:bg-opacity-20">
+          <DotsHorizontalIcon className="h-3 w-3 text-white opacity-60" />
         </button>
       </DropdownMenu.Trigger>
 
-      <DropdownMenu.Content className="bg-white dark:bg-slate-800 dark:text-white shadow-md rounded-lg px-1 py-1.5 text-sm min-w-[125px]">
+      <DropdownMenu.Content className="min-w-[125px] rounded-lg bg-white px-1 py-1.5 text-sm shadow-md dark:bg-slate-800 dark:text-white">
         <DropdownMenu.Item className="hover:outline-none">
           <button
-            className="dark:hover:bg-slate-700 hover:bg-slate-100 rounded-md w-full text-left pl-1.5 pr-2 py-0.5 dark:text-red-300 text-rose-500 flex gap-1.5 items-center"
+            className="flex w-full items-center gap-1.5 rounded-md py-0.5 pl-1.5 pr-2 text-left text-rose-500 hover:bg-slate-100 dark:text-red-300 dark:hover:bg-slate-700"
             onClick={handleDeleteClick}
           >
-            <TrashIcon className="w-4 h-4" /> Delete Task
+            <TrashIcon className="h-4 w-4" /> Delete Task
           </button>
         </DropdownMenu.Item>
 
         <DropdownMenu.Arrow
           offset={5}
-          className="dark:fill-slate-800 fill-white"
+          className="fill-white dark:fill-slate-800"
         />
       </DropdownMenu.Content>
     </DropdownMenu.Root>

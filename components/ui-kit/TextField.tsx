@@ -18,10 +18,10 @@ export function TextField({
   value,
 }: Props) {
   return (
-    <div className="rounded-md border border-slate-500 dark:border-slate-200 flex">
+    <div className="flex rounded-md border border-slate-500 dark:border-slate-200">
       <input
         autoComplete={autoComplete}
-        className="p-2 rounded-md bg-transparent w-full"
+        className="w-full rounded-md bg-transparent p-2"
         name={name}
         placeholder={placeholder}
         onChange={(event) => onChange(event.currentTarget.value)}

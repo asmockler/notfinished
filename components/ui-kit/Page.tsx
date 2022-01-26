@@ -16,7 +16,7 @@ export function Page({ children }: Props) {
 
       <div
         className="
-          bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-200
+          bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-200
         "
       >
         {children}
