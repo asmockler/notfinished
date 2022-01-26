@@ -23,12 +23,46 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type CalendarEvent = {
+  __typename?: 'CalendarEvent';
+  duration: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  time: Scalars['DateTime'];
+};
+
+export type CalendarEventCreateInput = {
+  duration: Scalars['Int'];
+  name: Scalars['String'];
+  time: Scalars['DateTime'];
+  userId: Scalars['Int'];
+};
+
+export type CalendarEventUpdateInput = {
+  calendarEventId: Scalars['Int'];
+  duration?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  time?: InputMaybe<Scalars['DateTime']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  calendarEventCreate?: Maybe<CalendarEvent>;
+  calendarEventUpdate?: Maybe<CalendarEvent>;
   taskCreate?: Maybe<Task>;
   taskDelete?: Maybe<Scalars['Boolean']>;
   taskUpdate?: Maybe<Task>;
   userCreate?: Maybe<User>;
+};
+
+
+export type MutationCalendarEventCreateArgs = {
+  input: CalendarEventCreateInput;
+};
+
+
+export type MutationCalendarEventUpdateArgs = {
+  input: CalendarEventUpdateInput;
 };
 
 
@@ -62,7 +96,7 @@ export type Task = {
   complete: Scalars['Boolean'];
   duration: Scalars['Int'];
   id: Scalars['Int'];
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   time?: Maybe<Scalars['DateTime']>;
 };
 
@@ -84,6 +118,7 @@ export type TaskUpdateInput = {
 
 export type User = {
   __typename?: 'User';
+  calendarEvents: Array<CalendarEvent>;
   email: Scalars['String'];
   id: Scalars['Int'];
   image?: Maybe<Scalars['String']>;
@@ -167,6 +202,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CalendarEvent: ResolverTypeWrapper<CalendarEvent>;
+  CalendarEventCreateInput: CalendarEventCreateInput;
+  CalendarEventUpdateInput: CalendarEventUpdateInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -183,6 +221,9 @@ export type ResolversTypes = ResolversObject<{
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean'];
+  CalendarEvent: CalendarEvent;
+  CalendarEventCreateInput: CalendarEventCreateInput;
+  CalendarEventUpdateInput: CalendarEventUpdateInput;
   DateTime: Scalars['DateTime'];
   Int: Scalars['Int'];
   Mutation: {};
@@ -196,11 +237,21 @@ export type ResolversParentTypes = ResolversObject<{
   UserCreateInput: UserCreateInput;
 }>;
 
+export type CalendarEventResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['CalendarEvent'] = ResolversParentTypes['CalendarEvent']> = ResolversObject<{
+  duration?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  time?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
 
 export type MutationResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  calendarEventCreate?: Resolver<Maybe<ResolversTypes['CalendarEvent']>, ParentType, ContextType, RequireFields<MutationCalendarEventCreateArgs, 'input'>>;
+  calendarEventUpdate?: Resolver<Maybe<ResolversTypes['CalendarEvent']>, ParentType, ContextType, RequireFields<MutationCalendarEventUpdateArgs, 'input'>>;
   taskCreate?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationTaskCreateArgs, 'input'>>;
   taskDelete?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationTaskDeleteArgs, 'input'>>;
   taskUpdate?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationTaskUpdateArgs, 'input'>>;
@@ -216,12 +267,13 @@ export type TaskResolvers<ContextType = ApolloContext, ParentType extends Resolv
   complete?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   duration?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   time?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type UserResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  calendarEvents?: Resolver<Array<ResolversTypes['CalendarEvent']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -231,6 +283,7 @@ export type UserResolvers<ContextType = ApolloContext, ParentType extends Resolv
 }>;
 
 export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
+  CalendarEvent?: CalendarEventResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

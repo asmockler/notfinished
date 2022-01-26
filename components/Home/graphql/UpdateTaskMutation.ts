@@ -14,7 +14,7 @@ export type UpdateTaskMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateTaskMutation = { __typename?: 'Mutation', taskUpdate?: { __typename?: 'Task', id: number, time?: any | null | undefined, name?: string | null | undefined, complete: boolean } | null | undefined };
+export type UpdateTaskMutation = { __typename?: 'Mutation', taskUpdate?: { __typename?: 'Task', id: number, time?: any | null | undefined, name: string, complete: boolean, duration: number } | null | undefined };
 
 
 export const UpdateTaskDocument = gql`
@@ -24,6 +24,7 @@ export const UpdateTaskDocument = gql`
     time
     name
     complete
+    duration
   }
 }
     `;

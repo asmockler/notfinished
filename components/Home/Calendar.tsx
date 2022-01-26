@@ -12,6 +12,7 @@ import { CalendarActions } from "./CalendarActions";
 
 interface Props {
   tasks: any[];
+  events: any[];
 }
 
 const formatDateWithShortMonth = new Intl.DateTimeFormat("en", {
@@ -32,7 +33,7 @@ const formatHour = new Intl.DateTimeFormat("en", {
   hour: "numeric",
 }).format;
 
-export function Calendar({ tasks }: Props) {
+export function Calendar({ events, tasks }: Props) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [firstDate, setFirstDate] = useState(startOfWeek(new Date()));
 
@@ -122,9 +123,17 @@ export function Calendar({ tasks }: Props) {
             const tasksOnDate = tasks.filter((task: any) => {
               return isSameDay(new Date(task.time), date);
             });
+            const eventsOnDate = events.filter((event: any) => {
+              return isSameDay(new Date(event.time), date);
+            });
 
             return (
-              <Day key={date.toString()} date={date} tasks={tasksOnDate} />
+              <Day
+                key={date.toString()}
+                date={date}
+                tasks={tasksOnDate}
+                events={eventsOnDate}
+              />
             );
           })}
         </div>

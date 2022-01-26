@@ -4,6 +4,15 @@ import type { Session } from "next-auth";
 import prisma from "../prisma/runtime";
 
 import { QueryResolver, QueryTypes } from "./query";
+import {
+  CalendarEventCreateResolver,
+  CalendarEventCreateTypes,
+} from "./calendar-event-create";
+import {
+  CalendarEventUpdateResolver,
+  CalendarEventUpdateTypes,
+} from "./calendar-event-update";
+import { CalendarEventResolver, CalendarEventTypes } from "./calendar-event";
 import { TaskCreateResolver, TaskCreateTypes } from "./task-create";
 import { TaskDeleteResolver, TaskDeleteTypes } from "./task-delete";
 import { TaskUpdateResolver, TaskUpdateTypes } from "./task-update";
@@ -27,6 +36,9 @@ export const typeDefs = [
   DateTime.typeDef,
   Mutation,
   QueryTypes,
+  CalendarEventCreateTypes,
+  CalendarEventUpdateTypes,
+  CalendarEventTypes,
   TaskCreateTypes,
   TaskDeleteTypes,
   TaskUpdateTypes,
@@ -37,7 +49,10 @@ export const typeDefs = [
 
 export const resolvers = {
   DateTime: DateTime.implementation,
+  CalendarEvent: CalendarEventResolver,
   Mutation: {
+    calendarEventCreate: CalendarEventCreateResolver,
+    calendarEventUpdate: CalendarEventUpdateResolver,
     taskCreate: TaskCreateResolver,
     taskDelete: TaskDeleteResolver,
     taskUpdate: TaskUpdateResolver,

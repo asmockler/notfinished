@@ -10,5 +10,11 @@ query Home {
       duration
       complete
     }
+    calendarEvents {
+      id
+      name
+      time
+      duration
+    }
   }
 }

@@ -1,0 +1,8 @@
+mutation UpdateCalendarEvent($input: CalendarEventUpdateInput!) {
+  calendarEventUpdate(input: $input) {
+    id
+    time
+    name
+    duration
+  }
+}

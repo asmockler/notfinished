@@ -53,9 +53,9 @@ function DragHandle({ id }: { id: string }) {
       {isDragging ? (
         <div
           className="
-            pointer-events-none absolute top-full w-full rounded-b-md
-            bg-slate-800 bg-opacity-30 dark:bg-white
-          "
+              pointer-events-none absolute top-full w-full rounded-b-md
+              bg-slate-800 bg-opacity-30 dark:bg-white dark:bg-opacity-30
+            "
           style={{
             height:
               transform == null

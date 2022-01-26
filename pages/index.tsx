@@ -32,7 +32,7 @@ const Home: NextPage = () => {
   }
 
   if (data.me == null) {
-    return <p>Time to log in!</p>;
+    return <p>Time to log in! Go to /api/auth/signin</p>;
   }
 
   return (
@@ -64,12 +64,13 @@ const Home: NextPage = () => {
           ) : (
             <Calendar
               tasks={data.me.tasks.filter((task: any) => task.time != null)}
+              events={data.me.calendarEvents}
             />
           )}
 
-          <div className="border-l dark:border-slate-700 grid grid-rows-[2fr_min-content] h-screen">
-            <div className="py-4 flex flex-col gap-y-2 overflow-y-auto">
-              <h2 className="font-semibold text-2xl px-4">Tasks</h2>
+          <div className="grid h-screen grid-rows-[2fr_min-content] border-l dark:border-slate-700">
+            <div className="flex flex-col gap-y-2 overflow-y-auto py-4">
+              <h2 className="px-4 text-2xl font-semibold">Tasks</h2>
 
               <div className="px-4">
                 <NewTask />
@@ -83,7 +84,7 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <div className="border-t p-4 dark:border-slate-700 flex justify-end items-center">
+            <div className="flex items-center justify-end border-t p-4 dark:border-slate-700">
               {data.me.image == null ? (
                 <p>{data.me.email}</p>
               ) : (

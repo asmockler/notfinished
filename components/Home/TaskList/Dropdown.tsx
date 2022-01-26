@@ -1,12 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import {
-  DotsHorizontalIcon,
-  TrashIcon,
-  PencilIcon,
-} from "@heroicons/react/outline";
+import { DotsHorizontalIcon, TrashIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 
-import { EditTaskModal } from "./EditTaskModal";
 import { useDeleteTaskMutation } from "../graphql/DeleteTaskMutation";
 import type { TaskListTask } from "./types";
 
@@ -37,7 +32,7 @@ export function Dropdown({ task }: Props) {
       <DropdownMenu.Content className="min-w-[125px] rounded-lg bg-white px-1 py-1.5 text-sm shadow-md dark:bg-slate-800 dark:text-white">
         <DropdownMenu.Item className="hover:outline-none">
           <button
-            className="flex w-full items-center gap-1.5 rounded-md py-0.5 pl-1.5 pr-2 text-left text-rose-500 hover:bg-slate-100 dark:text-red-300 dark:hover:bg-slate-700"
+            className="flex w-full items-center gap-1.5 rounded-md py-0.5 pl-1.5 pr-2 text-left text-rose-500 hover:bg-slate-100 dark:text-rose-400 dark:hover:bg-slate-700"
             onClick={handleDeleteClick}
           >
             <TrashIcon className="h-4 w-4" /> Delete Task

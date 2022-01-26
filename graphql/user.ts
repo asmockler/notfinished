@@ -8,6 +8,7 @@ export const UserTypes = gql`
     email: String!
     image: String
     tasks: [Task!]!
+    calendarEvents: [CalendarEvent!]!
   }
 `;
 
@@ -20,5 +21,14 @@ export const UserResolver: UserResolvers = {
     });
 
     return tasks;
+  },
+  calendarEvents: async (user, _, { db }) => {
+    const calendarEvents = await db.calendarEvent.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    return calendarEvents;
   },
 };

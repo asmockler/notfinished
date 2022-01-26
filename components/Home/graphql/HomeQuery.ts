@@ -12,7 +12,7 @@ const defaultOptions = {} as const;
 export type HomeQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type HomeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, email: string, image?: string | null | undefined, tasks: Array<{ __typename?: 'Task', id: number, name?: string | null | undefined, time?: any | null | undefined, duration: number, complete: boolean }> } | null | undefined };
+export type HomeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, email: string, image?: string | null | undefined, tasks: Array<{ __typename?: 'Task', id: number, name: string, time?: any | null | undefined, duration: number, complete: boolean }>, calendarEvents: Array<{ __typename?: 'CalendarEvent', id: number, name: string, time: any, duration: number }> } | null | undefined };
 
 
 export const HomeDocument = gql`
@@ -27,6 +27,12 @@ export const HomeDocument = gql`
       time
       duration
       complete
+    }
+    calendarEvents {
+      id
+      name
+      time
+      duration
     }
   }
 }

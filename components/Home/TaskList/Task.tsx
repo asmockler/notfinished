@@ -27,14 +27,18 @@ export function Task({ task }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-2 rounded-lg bg-gradient-to-br from-blue-600 to-sky-400 px-2 py-1 text-sm text-white dark:from-blue-800 dark:to-sky-600">
-      <CheckButton checked={task.complete} onClick={handleCompleteClick} />
+    <div className="flex gap-2 rounded-lg bg-gradient-to-br from-blue-600 to-sky-400 px-2 py-1.5 text-sm text-white dark:from-blue-800 dark:to-sky-600">
+      <div className="-mb-0.5 pt-0.5">
+        <CheckButton checked={task.complete} onClick={handleCompleteClick} />
+      </div>
 
-      <p className="flex-grow select-none text-left">
+      <p className="flex-grow select-none text-left leading-snug">
         {task.complete ? <s className="opacity-60">{task.name}</s> : task.name}
       </p>
 
-      <Dropdown task={task} />
+      <div>
+        <Dropdown task={task} />
+      </div>
     </div>
   );
 }
