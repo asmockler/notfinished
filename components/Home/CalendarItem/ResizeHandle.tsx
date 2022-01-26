@@ -40,19 +40,22 @@ function DragHandle({ id }: { id: string }) {
     <div
       className="
         absolute left-0 bottom-0 flex h-2 w-full
-        cursor-row-resize items-center justify-center bg-white
-        bg-opacity-30 opacity-0 hover:rounded-b-md
-        hover:bg-opacity-30 hover:opacity-100
-        active:bg-opacity-30 active:opacity-100
+        cursor-row-resize items-center justify-center
+      bg-slate-800 bg-opacity-30 opacity-0 hover:rounded-b-md hover:bg-opacity-30
+        hover:opacity-100 active:bg-opacity-30
+        active:opacity-100 dark:bg-white
       "
       {...listeners}
       ref={setNodeRef}
     >
-      <DotsHorizontalIcon className="h-3 w-3 opacity-50" />
+      <DotsHorizontalIcon className="h-3 w-3 opacity-70 dark:opacity-50" />
 
       {isDragging ? (
         <div
-          className="pointer-events-none absolute top-full w-full rounded-b-md bg-white bg-opacity-30"
+          className="
+            pointer-events-none absolute top-full w-full rounded-b-md
+            bg-slate-800 bg-opacity-30 dark:bg-white
+          "
           style={{
             height:
               transform == null
