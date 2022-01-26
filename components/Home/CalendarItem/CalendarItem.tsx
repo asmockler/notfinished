@@ -9,7 +9,7 @@ interface Props {
   id: number;
   name: string;
   duration: number;
-  complete?: boolean;
+  complete?: boolean | null;
 }
 
 export function CalendarItem({ id, duration, name, complete = false }: Props) {

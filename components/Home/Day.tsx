@@ -143,13 +143,11 @@ export function Day({ date, events, tasks }: DayProps) {
         </div>
       </div>
 
-      {createModalTime == null ? null : (
-        <NewCalendarEventModal
-          open={showCreateModal}
-          suggestedTime={createModalTime}
-          onOpenChange={() => setCreateModalTime(null)}
-        />
-      )}
+      <NewCalendarEventModal
+        open={showCreateModal}
+        suggestedTime={createModalTime}
+        onClose={() => setCreateModalTime(null)}
+      />
     </>
   );
 }
