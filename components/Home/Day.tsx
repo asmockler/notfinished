@@ -98,7 +98,15 @@ export function Day({ date, events, tasks }: DayProps) {
                   width: `calc(95% - ${schedulable.widthAdjustments * 30}px)`,
                 }}
               >
-                <Draggable id={schedulable.id.toString()}>
+                <Draggable
+                  id={schedulable.id.toString()}
+                  data={{
+                    type:
+                      schedulable instanceof ScheduledTask
+                        ? "TASK"
+                        : "CALENDAR_EVENT",
+                  }}
+                >
                   <CalendarItem
                     id={schedulable.id}
                     name={schedulable.name}

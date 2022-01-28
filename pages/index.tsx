@@ -9,20 +9,44 @@ import { Calendar } from "../components/Home/Calendar";
 import { TaskList } from "../components/Home/TaskList";
 import { NewTask } from "../components/Home/NewTask";
 import { HomeDndContext } from "../components/Home/HomeDndContext";
+import { UserMenu } from "../components/Home/UserMenu";
+import { useUpdateCalendarEventMutation } from "../components/Home/graphql/UpdateCalendarEvent";
 
 const Home: NextPage = () => {
   const [activeDrag, setActiveDrag] = useState<string | null>(null);
   const { loading, data, refetch } = useHomeQuery();
-  const [mutate] = useUpdateTaskMutation();
+  const [updateTask] = useUpdateTaskMutation();
+  const [updateCalendarEvent] = useUpdateCalendarEventMutation();
 
-  async function handleDragEnd(id: number, time: Date | null) {
-    const mutRes = await mutate({
-      variables: {
-        input: { taskId: id, time },
-      },
-    });
+  async function handleDragEnd(
+    id: number,
+    time: Date | null,
+    data: { [key: string]: any }
+  ) {
+    console.log({ data });
+    try {
+      let response = null;
 
-    console.log(mutRes);
+      if (data.type === "TASK") {
+        response = await updateTask({
+          variables: {
+            input: { taskId: id, time },
+          },
+        });
+      } else if (data.type === "CALENDAR_EVENT") {
+        response = await updateCalendarEvent({
+          variables: {
+            input: { calendarEventId: id, time },
+          },
+        });
+      } else {
+        throw new Error(`Unknown data type ${data.type}`);
+      }
+
+      console.log(response);
+    } catch (error) {
+      console.error(JSON.stringify(error, null, 2), error);
+    }
 
     refetch();
   }
@@ -47,14 +71,21 @@ const Home: NextPage = () => {
             return;
           }
 
+          console.log(event.active);
+
           if (event.over?.id === "TASK_LIST") {
-            handleDragEnd(Number(event.active.id), null);
+            handleDragEnd(
+              Number(event.active.id),
+              null,
+              event.active.data.current!
+            );
             return;
           }
 
           handleDragEnd(
             Number(event.active.id),
-            event.over!.data.current!.time
+            event.over!.data.current!.time,
+            event.active.data.current!
           );
         }}
       >
