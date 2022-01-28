@@ -33,6 +33,9 @@ const formatHour = new Intl.DateTimeFormat("en", {
   hour: "numeric",
 }).format;
 
+const formatDayOfWeek = new Intl.DateTimeFormat("en", { weekday: "long" })
+  .format;
+
 export function Calendar({ events, tasks }: Props) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [firstDate, setFirstDate] = useState(startOfWeek(new Date()));
@@ -55,7 +58,7 @@ export function Calendar({ events, tasks }: Props) {
 
   return (
     <div className="grid h-screen grid-rows-[min-content_1fr]">
-      <div className="flex items-center justify-between p-2">
+      <div className="flex items-center justify-between p-3 pb-5">
         <div className="text-3xl font-bold">
           {formatDateWithMonth(firstDate)} &ndash;{" "}
           {isSameMonth(firstDate, lastDate)
@@ -89,14 +92,17 @@ export function Calendar({ events, tasks }: Props) {
         >
           {visibleDates.map((date) => {
             const classes = classnames(
-              "text-lg py-2 px-1",
+              "text-xl pb-2 px-1",
               isToday(date)
                 ? "font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-800 via-purple-600 to-pink-500 inline-block dark:from-sky-400 dark:via-purple-400 dark:to-pink-600"
-                : "font-semibold"
+                : "font-bold"
             );
 
             return (
               <div key={date.toString()}>
+                <p className="text-xs leading-none opacity-30">
+                  {formatDayOfWeek(date)}
+                </p>
                 <h2 className={classes}>{formatDateWithShortMonth(date)}</h2>
               </div>
             );
