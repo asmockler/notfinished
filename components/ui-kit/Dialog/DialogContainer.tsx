@@ -14,7 +14,7 @@ export function DialogContainer({ children, onClose, open }: Props) {
       <Dialog
         open={open}
         onClose={onClose}
-        className="fixed inset-0 z-30 overflow-y-auto"
+        className="fixed inset-0 z-30 overflow-y-scroll"
       >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child

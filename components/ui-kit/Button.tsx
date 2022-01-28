@@ -15,7 +15,7 @@ export function Button({ children, onClick, variant = "primary" }: Props) {
         font-medium leading-6
         ${
           variant === "primary"
-            ? "border-emerald-200 bg-emerald-200 text-emerald-900 dark:border-emerald-600 dark:bg-emerald-600 dark:text-white"
+            ? `border-indigo-200 bg-indigo-200 text-indigo-900 dark:border-indigo-300 dark:bg-indigo-300 dark:text-slate-900`
             : ""
         }
         ${

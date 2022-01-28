@@ -7,7 +7,10 @@ interface Props {
 
 export function DialogTitle({ children }: Props) {
   return (
-    <Dialog.Title className="text-lg font-medium leading-6" as="h3">
+    <Dialog.Title
+      className="text-2xl font-semibold leading-8 tracking-wide"
+      as="h3"
+    >
       {children}
     </Dialog.Title>
   );

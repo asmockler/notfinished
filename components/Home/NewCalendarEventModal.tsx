@@ -102,6 +102,7 @@ export function NewCalendarEventModal({ open, onClose, suggestedTime }: Props) {
           <Option value="120">2 hours</Option>
           <Option value="150">2.5 hours</Option>
         </Select>
+
         <div className="flex justify-end">
           <Button type="submit" variant="primary">
             Save
