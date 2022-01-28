@@ -20,33 +20,6 @@ interface DayProps {
   tasks: any[];
 }
 
-class TaskUtil {
-  startTime: Date;
-  endTime: Date;
-  duration: number;
-  id: number;
-  name: string;
-  complete: boolean;
-
-  widthAdjustments = 0;
-  leftAdjustments = 0;
-
-  constructor(task: {
-    duration: number;
-    time: string;
-    id: number;
-    name: string;
-    complete: boolean;
-  }) {
-    this.startTime = new Date(task.time);
-    this.endTime = addMinutes(this.startTime, task.duration);
-    this.duration = task.duration;
-    this.id = task.id;
-    this.name = task.name;
-    this.complete = task.complete;
-  }
-}
-
 function Hour({ onClick, time }: HourProps) {
   const { isOver, setNodeRef } = useDroppable({
     id: time.toString(),
