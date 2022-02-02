@@ -1,7 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { LogoutIcon } from "@heroicons/react/solid";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { Fragment } from "react";
 
 interface Props {
@@ -40,17 +40,15 @@ export function UserMenu({ email, imgSrc }: Props) {
           <div className="p-1">
             <Menu.Item>
               {({ active }) => (
-                <div
-                  className={`${active ? "dark:bg-slate-700" : ""} rounded-md`}
+                <button
+                  className={`
+                    ${active ? "bg-slate-100 dark:bg-slate-700" : ""}
+                    flex w-full items-center rounded-md p-2 text-sm
+                  `}
+                  onClick={() => signOut()}
                 >
-                  <Link href="/api/auth/signout" passHref>
-                    <a>
-                      <div className="flex w-full items-center p-2 text-sm">
-                        <LogoutIcon className="mr-2 h-5 w-5" /> Log out
-                      </div>
-                    </a>
-                  </Link>
-                </div>
+                  <LogoutIcon className="mr-2 h-5 w-5" /> Log out
+                </button>
               )}
             </Menu.Item>
           </div>
