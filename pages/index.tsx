@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import { useState } from "react";
-import Image from "next/image";
 
 import { Page } from "../components/ui-kit";
 import { useHomeQuery } from "../components/Home/graphql/HomeQuery";
@@ -23,7 +22,6 @@ const Home: NextPage = () => {
     time: Date | null,
     data: { [key: string]: any }
   ) {
-    console.log({ data });
     try {
       let response = null;
 
@@ -71,8 +69,6 @@ const Home: NextPage = () => {
             return;
           }
 
-          console.log(event.active);
-
           if (event.over?.id === "TASK_LIST") {
             handleDragEnd(
               Number(event.active.id),
@@ -119,13 +115,7 @@ const Home: NextPage = () => {
               {data.me.image == null ? (
                 <p>{data.me.email}</p>
               ) : (
-                <Image
-                  src={data.me.image}
-                  alt=""
-                  width={35}
-                  height={35}
-                  className="rounded-full"
-                />
+                <UserMenu email={data.me.email} imgSrc={data.me.image} />
               )}
             </div>
           </div>
