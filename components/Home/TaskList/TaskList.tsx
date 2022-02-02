@@ -30,12 +30,22 @@ export function TaskList({ tasks, activeTaskId }: Props) {
       <div className="h-full px-2">
         <div className={classes} ref={setNodeRef}>
           {tasks.map((task) => {
-            if (task.id.toString() === activeTaskId) {
-              return null;
-            }
             return (
-              <Draggable key={task.id} id={task.id.toString()}>
-                <Task task={task} />
+              <Draggable
+                key={task.id}
+                id={task.id.toString()}
+                data={{
+                  type: "TASK",
+                }}
+              >
+                <div
+                  style={{
+                    display:
+                      task.id.toString() === activeTaskId ? "none" : undefined,
+                  }}
+                >
+                  <Task task={task} />
+                </div>
               </Draggable>
             );
           })}
