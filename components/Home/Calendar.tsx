@@ -92,14 +92,14 @@ export function Calendar({ events, tasks }: Props) {
         >
           {visibleDates.map((date) => {
             const classes = classnames(
-              "text-xl pb-2 px-1",
+              "text-xl font-bold",
               isToday(date)
-                ? "font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-800 via-purple-600 to-pink-500 inline-block dark:from-sky-400 dark:via-purple-400 dark:to-pink-600"
-                : "font-bold"
+                ? "text-transparent bg-clip-text bg-gradient-to-br from-blue-800 via-purple-600 to-pink-500 inline-block dark:from-sky-400 dark:via-purple-400 dark:to-pink-600"
+                : ""
             );
 
             return (
-              <div key={date.toString()}>
+              <div key={date.toString()} className="px-1 pb-2">
                 <p className="text-xs leading-none opacity-30">
                   {formatDayOfWeek(date)}
                 </p>
