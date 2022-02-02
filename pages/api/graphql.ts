@@ -1,4 +1,3 @@
-import { ApolloServer } from "apollo-server-micro";
 import cors from "micro-cors";
 import { getSession } from "next-auth/react";
 import { PageConfig, NextApiHandler } from "next";
@@ -10,30 +9,21 @@ export const config: PageConfig = {
   },
 };
 
-let apolloServerHandler: NextApiHandler;
-async function getApolloServerHandler(apolloServer: ApolloServer) {
-  if (apolloServerHandler == null) {
-    await apolloServer.start();
-    apolloServerHandler = await apolloServer.createHandler({
-      path: "/api/graphql",
-    });
-  }
-
-  return apolloServerHandler;
-}
-
 const handler: NextApiHandler = async (req, res) => {
-  const session = await getSession({ req });
-  const apolloServer = await createApolloServer(session);
-
-  const apolloHandler = await getApolloServerHandler(apolloServer);
-
   if (req.method === "OPTIONS") {
     res.end();
     return;
   }
 
-  await apolloHandler(req, res);
+  const session = await getSession({ req });
+  const apolloServer = await createApolloServer(session);
+
+  await apolloServer.start();
+  const apolloServerHandler = await apolloServer.createHandler({
+    path: "/api/graphql",
+  });
+
+  await apolloServerHandler(req, res);
 };
 
 export default cors()(handler as any);
