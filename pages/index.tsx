@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Router from "next/router";
 import { useState } from "react";
 
 import { Page } from "../components/ui-kit";
@@ -54,6 +55,8 @@ const Home: NextPage = () => {
   }
 
   if (data.me == null) {
+    Router.push("/api/auth/signin");
+
     return <p>Time to log in! Go to /api/auth/signin</p>;
   }
 
