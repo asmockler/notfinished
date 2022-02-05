@@ -19,12 +19,14 @@ export class Schedulable {
   id: number;
   name: string;
   startTime: Date;
+  time: Date;
 
   widthAdjustments = 0;
   leftAdjustments = 0;
 
   constructor({ time, duration, id, name }: SchedulableArgs) {
     this.startTime = new Date(time);
+    this.time = this.startTime;
     this.endTime = addMinutes(this.startTime, duration);
     this.duration = duration;
     this.id = id;

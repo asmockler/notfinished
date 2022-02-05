@@ -1,13 +1,15 @@
 import { useDroppable } from "@dnd-kit/core";
 import classnames from "classnames";
-import { isToday, addMinutes } from "date-fns";
+import { isToday } from "date-fns";
 import { useState } from "react";
 
 import { Draggable } from "./Draggable";
 import { CalendarItem } from "./CalendarItem";
+import { EditCalendarEventModal } from "./EditCalendarEventModal";
 import { NowIndicator } from "./NowIndicator";
 import { NewCalendarEventModal } from "./NewCalendarEventModal";
 import { Schedulable, ScheduledEvent, ScheduledTask } from "./utils";
+import { CalendarEvent } from "@prisma/client";
 
 interface HourProps {
   time: Date;
@@ -25,19 +27,32 @@ function Hour({ onClick, time }: HourProps) {
     id: time.toString(),
     data: { time },
   });
-  const classes = classnames(
-    "h-[30px] dark:border-slate-700",
-    time.getHours() !== 23 && "even:border-b",
-    isOver && "bg-slate-200 dark:bg-slate-800"
-  );
 
   return (
-    <div onClick={() => onClick(time)} ref={setNodeRef} className={classes} />
+    <div
+      className={classnames(
+        "h-[30px] cursor-pointer hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800",
+        time.getHours() !== 23 && "even:border-b",
+        isOver && "bg-slate-200 dark:bg-slate-800"
+      )}
+    >
+      <button
+        className="h-full w-full"
+        onClick={() => onClick(time)}
+        ref={setNodeRef}
+      />
+    </div>
   );
 }
 
 export function Day({ date, events, tasks }: DayProps) {
   const [createModalTime, setCreateModalTime] = useState<Date | null>(null);
+  const [calendarEventBeingEdited, setCalendarEventBeingEdited] = useState<{
+    id: number;
+    duration: number;
+    time: Date;
+    name: string;
+  } | null>(null);
   const showCreateModal = createModalTime != null;
 
   const schedulables: Schedulable[] = [];
@@ -116,6 +131,11 @@ export function Day({ date, events, tasks }: DayProps) {
                         ? schedulable.complete
                         : null
                     }
+                    onClick={
+                      schedulable instanceof ScheduledTask
+                        ? () => {}
+                        : () => setCalendarEventBeingEdited(schedulable)
+                    }
                   />
                 </Draggable>
               </div>
@@ -128,6 +148,12 @@ export function Day({ date, events, tasks }: DayProps) {
         open={showCreateModal}
         suggestedTime={createModalTime}
         onClose={() => setCreateModalTime(null)}
+      />
+
+      <EditCalendarEventModal
+        open={calendarEventBeingEdited != null}
+        calendarEvent={calendarEventBeingEdited}
+        onClose={() => setCalendarEventBeingEdited(null)}
       />
     </>
   );

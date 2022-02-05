@@ -10,9 +10,16 @@ interface Props {
   name: string;
   duration: number;
   complete?: boolean | null;
+  onClick(): void;
 }
 
-export function CalendarItem({ id, duration, name, complete = false }: Props) {
+export function CalendarItem({
+  id,
+  duration,
+  name,
+  complete = false,
+  onClick,
+}: Props) {
   const [toggleTaskCompletion] = useToggleTaskCompletionMutation();
   const [updateTask] = useUpdateTaskMutation({ refetchQueries: ["Home"] });
   const [updateCalendarEvent] = useUpdateCalendarEventMutation({
@@ -57,7 +64,7 @@ export function CalendarItem({ id, duration, name, complete = false }: Props) {
   }
 
   return (
-    <div className="relative">
+    <div className="relative" onClick={onClick}>
       <div
         className="
             left-px overflow-hidden
