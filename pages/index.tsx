@@ -2,15 +2,15 @@ import type { NextPage } from "next";
 import Router from "next/router";
 import { useState } from "react";
 
-import { Page } from "../components/ui-kit";
-import { useHomeQuery } from "../components/Home/graphql/HomeQuery";
-import { useUpdateTaskMutation } from "../components/Home/graphql/UpdateTaskMutation";
-import { Calendar } from "../components/Home/Calendar";
-import { TaskList } from "../components/Home/TaskList";
-import { NewTask } from "../components/Home/NewTask";
-import { HomeDndContext } from "../components/Home/HomeDndContext";
-import { UserMenu } from "../components/Home/UserMenu";
-import { useUpdateCalendarEventMutation } from "../components/Home/graphql/UpdateCalendarEvent";
+import { Page } from "../client/ui-kit";
+import { useHomeQuery } from "../client/Home/graphql/HomeQuery";
+import { useUpdateTaskMutation } from "../client/Home/graphql/UpdateTaskMutation";
+import { Calendar } from "../client/Home/Calendar";
+import { TaskList } from "../client/Home/TaskList";
+import { NewTask } from "../client/Home/NewTask";
+import { HomeDndContext } from "../client/Home/HomeDndContext";
+import { UserMenu } from "../client/Home/UserMenu";
+import { useUpdateCalendarEventMutation } from "../client/Home/graphql/UpdateCalendarEvent";
 
 const Home: NextPage = () => {
   const [activeDrag, setActiveDrag] = useState<string | null>(null);
