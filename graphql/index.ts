@@ -3,6 +3,8 @@ import type { PrismaClient, User } from "@prisma/client";
 import type { Session } from "next-auth";
 import prisma from "../prisma/runtime";
 
+import { logOperationName } from "./plugins/log-operation-name-plugin";
+
 import { QueryResolver, QueryTypes } from "./query";
 import {
   CalendarEventCreateResolver,
@@ -77,5 +79,6 @@ export const createApolloServer = async (session: Session | null) => {
     context: () => {
       return { db: prisma, currentUser };
     },
+    plugins: [logOperationName],
   });
 };

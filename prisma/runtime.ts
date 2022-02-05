@@ -1,4 +1,4 @@
-// Pulled from https://github.com/prisma/prisma-examples/blob/b4eecec5ba0f42d634c333d4adebee9872f13131/typescript/rest-nextjs-api-routes-auth/lib/prisma.ts
+// Based on https://github.com/prisma/prisma-examples/blob/b4eecec5ba0f42d634c333d4adebee9872f13131/typescript/rest-nextjs-api-routes-auth/lib/prisma.ts
 
 import { PrismaClient } from "@prisma/client";
 
@@ -10,11 +10,15 @@ import { PrismaClient } from "@prisma/client";
 
 let prisma: PrismaClient;
 
+function createClient() {
+  return new PrismaClient(/*{ log: ["query", "info", "warn", "error"] }*/);
+}
+
 if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
+  prisma = createClient();
 } else {
   if (!(global as any).prisma) {
-    (global as any).prisma = new PrismaClient();
+    (global as any).prisma = createClient();
   }
   prisma = (global as any).prisma;
 }
