@@ -7,7 +7,7 @@ A calendar app + to do list for planning your unfinished things
 - Copy the contents of `.env.example` to a `.env` file and fill in the necessary values
 - Install dependencies with `yarn install`
 - Get your database running with `yarn prisma migrate dev`
-- Generate GraphQL types with `yarn generate:graphql`
+- Generate GraphQL and Prisma types with `yarn generate:graphql && yarn prisma generate`
 - Run the app with `yarn dev`
 - Open [http://localhost:3000](http://localhost:3000)
 
