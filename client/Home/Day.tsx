@@ -9,7 +9,7 @@ import { EditCalendarEventModal } from "./EditCalendarEventModal";
 import { NowIndicator } from "./NowIndicator";
 import { NewCalendarEventModal } from "./NewCalendarEventModal";
 import { Schedulable, ScheduledEvent, ScheduledTask } from "./utils";
-import { CalendarEvent } from "@prisma/client";
+import { useFormatDate } from "../lib/use-format-date";
 
 interface HourProps {
   time: Date;

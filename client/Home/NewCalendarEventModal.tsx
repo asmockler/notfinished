@@ -10,6 +10,7 @@ import {
   TextField,
 } from "../ui-kit";
 import { useCreateCalendarEventMutation } from "./graphql/CreateCalendarEventMutation";
+import { useFormatDate } from "../lib/use-format-date";
 
 interface Props {
   open: boolean;
@@ -17,12 +18,11 @@ interface Props {
   suggestedTime: Date | null;
 }
 
-const formatHour = new Intl.DateTimeFormat("en", {
-  hour: "numeric",
-  minute: "2-digit",
-}).format;
-
 export function NewCalendarEventModal({ open, onClose, suggestedTime }: Props) {
+  const formatHour = useFormatDate({
+    hour: "numeric",
+    minute: "2-digit",
+  });
   const [createCalendarEvent] = useCreateCalendarEventMutation({
     refetchQueries: ["Home"],
   });
@@ -82,6 +82,7 @@ export function NewCalendarEventModal({ open, onClose, suggestedTime }: Props) {
           placeholder="Event name"
           value={name}
         />
+
         <Select onChange={setTime} value={time} label="Start time">
           {Array(48)
             .fill(0)
@@ -95,6 +96,7 @@ export function NewCalendarEventModal({ open, onClose, suggestedTime }: Props) {
               );
             })}
         </Select>
+
         <Select onChange={setDuration} value={duration} label="Duration">
           <Option value="30">30 minutes</Option>
           <Option value="60">1 hour</Option>

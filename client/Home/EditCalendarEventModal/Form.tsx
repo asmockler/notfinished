@@ -1,5 +1,6 @@
 import { addMinutes, startOfDay } from "date-fns";
 import { FormEvent, useState } from "react";
+import { useFormatDate } from "../../lib/use-format-date";
 
 import { Button, Option, Select, TextField } from "../../ui-kit";
 import { useUpdateCalendarEventMutation } from "../graphql/UpdateCalendarEvent";
@@ -14,12 +15,8 @@ interface Props {
   onSubmit(): void;
 }
 
-const formatHour = new Intl.DateTimeFormat("en", {
-  hour: "numeric",
-  minute: "2-digit",
-}).format;
-
 export function Form({ calendarEvent, onSubmit }: Props) {
+  const formatHour = useFormatDate({ hour: "numeric", minute: "2-digit" });
   const [updateCalendarEvent] = useUpdateCalendarEventMutation({
     refetchQueries: ["Home"],
   });

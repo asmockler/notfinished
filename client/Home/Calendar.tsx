@@ -9,34 +9,25 @@ import {
 } from "date-fns";
 import { Day } from "./Day";
 import { CalendarActions } from "./CalendarActions";
+import { useFormatDate } from "../lib/use-format-date";
 
 interface Props {
   tasks: any[];
   events: any[];
 }
 
-const formatDateWithShortMonth = new Intl.DateTimeFormat("en", {
-  month: "short",
-  day: "numeric",
-}).format;
-
-const formatDateWithMonth = new Intl.DateTimeFormat("en", {
-  month: "long",
-  day: "numeric",
-}).format;
-
-const formatDateWithoutMonth = new Intl.DateTimeFormat("en", {
-  day: "numeric",
-}).format;
-
-const formatHour = new Intl.DateTimeFormat("en", {
-  hour: "numeric",
-}).format;
-
-const formatDayOfWeek = new Intl.DateTimeFormat("en", { weekday: "long" })
-  .format;
-
 export function Calendar({ events, tasks }: Props) {
+  const formatDateWithoutMonth = useFormatDate({ day: "numeric" });
+  const formatHour = useFormatDate({ hour: "numeric" });
+  const formatDayOfWeek = useFormatDate({ weekday: "long" });
+  const formatDateWithShortMonth = useFormatDate({
+    month: "short",
+    day: "numeric",
+  });
+  const formatDateWithMonth = useFormatDate({
+    month: "long",
+    day: "numeric",
+  });
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [firstDate, setFirstDate] = useState(startOfWeek(new Date()));
 
