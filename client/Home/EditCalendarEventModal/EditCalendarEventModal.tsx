@@ -9,7 +9,7 @@ interface Props {
     duration: number;
     time: Date;
     name: string;
-  } | null;
+  };
 }
 
 export function EditCalendarEventModal({

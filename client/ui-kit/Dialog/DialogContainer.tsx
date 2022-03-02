@@ -26,7 +26,7 @@ export function DialogContainer({ children, onClose, open }: Props) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-slate-600 bg-opacity-40 backdrop-blur-sm" />
+            <Dialog.Overlay className="pointer-events-auto fixed inset-0 bg-slate-600 bg-opacity-40 backdrop-blur-sm" />
           </Transition.Child>
 
           <Transition.Child

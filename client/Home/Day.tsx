@@ -5,11 +5,9 @@ import { useState } from "react";
 
 import { Draggable } from "./Draggable";
 import { CalendarItem } from "./CalendarItem";
-import { EditCalendarEventModal } from "./EditCalendarEventModal";
 import { NowIndicator } from "./NowIndicator";
 import { NewCalendarEventModal } from "./NewCalendarEventModal";
 import { Schedulable, ScheduledEvent, ScheduledTask } from "./utils";
-import { useFormatDate } from "../lib/use-format-date";
 
 interface HourProps {
   time: Date;
@@ -122,21 +120,7 @@ export function Day({ date, events, tasks }: DayProps) {
                         : "CALENDAR_EVENT",
                   }}
                 >
-                  <CalendarItem
-                    id={schedulable.id}
-                    name={schedulable.name}
-                    duration={schedulable.duration}
-                    complete={
-                      schedulable instanceof ScheduledTask
-                        ? schedulable.complete
-                        : null
-                    }
-                    onClick={
-                      schedulable instanceof ScheduledTask
-                        ? () => {}
-                        : () => setCalendarEventBeingEdited(schedulable)
-                    }
-                  />
+                  <CalendarItem calendarEvent={schedulable} />
                 </Draggable>
               </div>
             );
@@ -148,12 +132,6 @@ export function Day({ date, events, tasks }: DayProps) {
         open={showCreateModal}
         suggestedTime={createModalTime}
         onClose={() => setCreateModalTime(null)}
-      />
-
-      <EditCalendarEventModal
-        open={calendarEventBeingEdited != null}
-        calendarEvent={calendarEventBeingEdited}
-        onClose={() => setCalendarEventBeingEdited(null)}
       />
     </>
   );

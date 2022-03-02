@@ -1,4 +1,7 @@
+import { Transition } from "@headlessui/react";
+import { useState } from "react";
 import { CheckButton } from "../CheckButton";
+import { EditCalendarEventModal } from "../EditCalendarEventModal";
 import { useToggleTaskCompletionMutation } from "../graphql/ToggleTaskCompletion";
 import { useUpdateCalendarEventMutation } from "../graphql/UpdateCalendarEvent";
 import { useUpdateTaskMutation } from "../graphql/UpdateTaskMutation";
@@ -6,33 +9,30 @@ import { useUpdateTaskMutation } from "../graphql/UpdateTaskMutation";
 import { ResizeHandle } from "./ResizeHandle";
 
 interface Props {
-  id: number;
-  name: string;
-  duration: number;
-  complete?: boolean | null;
-  onClick(): void;
+  calendarEvent: {
+    id: number;
+    duration: number;
+    time: Date;
+    name: string;
+    complete?: boolean | null;
+  };
 }
 
-export function CalendarItem({
-  id,
-  duration,
-  name,
-  complete = false,
-  onClick,
-}: Props) {
+export function CalendarItem({ calendarEvent }: Props) {
   const [toggleTaskCompletion] = useToggleTaskCompletionMutation();
   const [updateTask] = useUpdateTaskMutation({ refetchQueries: ["Home"] });
   const [updateCalendarEvent] = useUpdateCalendarEventMutation({
     refetchQueries: ["Home"],
   });
+  const [editing, setEditing] = useState(false);
 
   async function handleCompleteClick() {
     try {
       await toggleTaskCompletion({
         variables: {
           input: {
-            taskId: id,
-            complete: !complete,
+            taskId: calendarEvent.id,
+            complete: !calendarEvent.complete,
           },
         },
       });
@@ -45,16 +45,22 @@ export function CalendarItem({
     try {
       let response = null;
 
-      if (complete == null) {
+      if (calendarEvent.complete == null) {
         response = await updateCalendarEvent({
           variables: {
-            input: { calendarEventId: id, duration: duration + minuteDelta },
+            input: {
+              calendarEventId: calendarEvent.id,
+              duration: calendarEvent.duration + minuteDelta,
+            },
           },
         });
       } else {
         response = await updateTask({
           variables: {
-            input: { taskId: id, duration: duration + minuteDelta },
+            input: {
+              taskId: calendarEvent.id,
+              duration: calendarEvent.duration + minuteDelta,
+            },
           },
         });
       }
@@ -64,30 +70,47 @@ export function CalendarItem({
   }
 
   return (
-    <div className="relative" onClick={onClick}>
+    <div className="relative" onClick={() => setEditing(!editing)}>
       <div
         className="
             left-px overflow-hidden
             rounded-md border bg-gradient-to-br from-indigo-700 to-indigo-500
             px-1.5 py-[5px] text-xs text-white dark:border-slate-400
           "
-        style={{ height: duration }}
+        style={{ height: calendarEvent.duration }}
       >
         <div className="flex gap-1.5">
-          {complete == null ? null : (
-            <CheckButton checked={complete} onClick={handleCompleteClick} />
+          {calendarEvent.complete == null ? null : (
+            <CheckButton
+              checked={calendarEvent.complete}
+              onClick={handleCompleteClick}
+            />
           )}
           <p
             className={`flex-grow select-none leading-snug ${
-              duration === 30 ? "overflow-hidden whitespace-nowrap" : ""
+              calendarEvent.duration === 30
+                ? "overflow-hidden whitespace-nowrap"
+                : ""
             }`}
-            title={name}
+            title={calendarEvent.name}
           >
-            {complete ? <s className="opacity-60">{name}</s> : name}
+            {calendarEvent.complete ? (
+              <s className="opacity-60">{calendarEvent.name}</s>
+            ) : (
+              calendarEvent.name
+            )}
           </p>
         </div>
       </div>
-      <ResizeHandle id={id} onResize={handleResize} />
+      <ResizeHandle id={calendarEvent.id} onResize={handleResize} />
+
+      <Transition show={editing} unmount>
+        <EditCalendarEventModal
+          open={editing}
+          calendarEvent={calendarEvent}
+          onClose={() => setEditing(false)}
+        />
+      </Transition>
     </div>
   );
 }
