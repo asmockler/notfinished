@@ -100,7 +100,11 @@ export function Day({ date, events, tasks }: DayProps) {
           {schedulables.map((schedulable) => {
             return (
               <div
-                key={schedulable.id}
+                key={
+                  schedulable instanceof ScheduledTask
+                    ? `TASK-${schedulable.id}`
+                    : `CALENDAR_EVENT-${schedulable.id}`
+                }
                 className="absolute"
                 style={{
                   top:
