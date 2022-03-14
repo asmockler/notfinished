@@ -59,6 +59,9 @@ export function NewCalendarEventModal({ open, onClose, suggestedTime }: Props) {
       });
 
       onClose();
+      setTime(new Date().toISOString());
+      setName("");
+      setDuration("30");
     } catch (error) {
       console.error(JSON.stringify(error), null, 2);
     }
